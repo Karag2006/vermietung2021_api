@@ -61,7 +61,7 @@ class NavSeeder extends Seeder
             [
                 'id'                => 8,
                 'name'              => 'Benutzer',
-                'icon'              => 'fas fa-uses-cog',
+                'icon'              => 'fas fa-users-cog',
                 'link'              => '/users',
             ],
             [
