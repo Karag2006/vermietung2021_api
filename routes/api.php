@@ -19,7 +19,6 @@ use App\Http\Controllers\CustomerController;
 */
 
 Route::post('login', [UserController::class, 'authenticate']);
-Route::get('open', [DataController::class, 'open']);
 
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('nav', [NavController::class, 'index']);
