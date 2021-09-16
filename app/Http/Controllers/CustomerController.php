@@ -144,10 +144,13 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        // if (Gate::allows("destroy", Customer::class)) {
-            $customer->delete();
+        // Save the ID of the Customer to be deleted
+        $id = $customer->id;
 
-            return true;
-        // }
+        $customer->delete();
+
+        // include the id in the Response, so the Frontend can update its list.
+        return response()->json($id, Response::HTTP_OK);
+
     }
 }
