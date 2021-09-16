@@ -7,6 +7,7 @@
  *
 */
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,7 +23,7 @@ class CreateCustomersTable extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             // Autoincrement ID
-            $table->id();
+            $table->bigInteger('id')->autoIncrement();
             // Personalausweis / Pass /.... Nummer
             $table->string('pass_number')->nullable();
             // Name1 z.B. Firmenname oder Vor + Nachname
@@ -53,6 +54,7 @@ class CreateCustomersTable extends Migration
             $table->string('customer_type')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            DB::statement('SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";');
         });
     }
 

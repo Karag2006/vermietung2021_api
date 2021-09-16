@@ -23,6 +23,7 @@ class CustomerFactory extends Factory
     public function definition()
     {
         return [
+            'id' => 0,
             'pass_number' => Str::random(10),
             'name1' => $this->faker->unique()->name,
             'name2' => $this->faker->name,

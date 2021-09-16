@@ -24,7 +24,7 @@ class CustomerController extends Controller
     {
         // if(Gate::allows("view", Customer::class))
         // {
-            return Customer::select('id', 'name1', 'name2', 'city', 'customer_type')->orderBy('name1')->get();
+            return Customer::select('id', 'name1', 'name2', 'city', 'plz')->orderBy('name1')->get();
         // }
     }
 
@@ -76,7 +76,22 @@ class CustomerController extends Controller
         // if (Gate::allows("view", Customer::class)) {
         //    return $customer;
         // }
-
+        $customer = $customer->only([
+                'id',
+                'pass_number',
+                'name1',
+                'name2',
+                'street',
+                'plz',
+                'city',
+                'birth_date',
+                'birth_city',
+                'phone',
+                'car_number',
+                'email',
+                'driving_license_no',
+                'driving_license_class'
+            ]);
         return response()->json($customer);
     }
 

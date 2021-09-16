@@ -15,6 +15,8 @@ class Customer extends Model
         'itemIdentifier'
     ];
 
+    public $incrementing = true;
+
     protected $dates = [
         'birth_date',
         'created_at',
