@@ -109,12 +109,10 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        // if (Gate::allows("update", Customer::class)) {
-            // Hole den genannten Kunden aus der Datenbank.
-            //$customer = Customer::findOrFail($customer);
 
-            // Validiere den Input
-            $this->validate($request, [
+
+        // Validate Input
+        $this->validate($request, [
                 'pass_number'           =>  'nullable|string|min:8|max:30',
                 'name1'                 =>  'required|string|max:50',
                 'name2'                 =>  'nullable|string|max:50',
@@ -128,12 +126,22 @@ class CustomerController extends Controller
                 'email'                 =>  'nullable|email',
                 'driving_license_no'    =>  'nullable|string|min:6|max:15',
                 'driving_license_class' =>  'nullable|string|max:9',
-            ]);
+        ]);
 
-            $customer->update($request->all());
+        $customer->update($request->all());
 
-            return true;
-        }
+        $customer = $customer->only([
+            'id',
+            'name1',
+            'name2',
+            'plz',
+            'city',
+        ]);
+
+        return response()->json($customer,
+            Response::HTTP_OK
+        );
+    }
     // }
 
     /**
