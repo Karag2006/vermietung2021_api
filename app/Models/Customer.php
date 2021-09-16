@@ -11,10 +11,6 @@ class Customer extends Model
 {
     use SoftDeletes, HasFactory;
 
-    protected $appends = [
-        'itemIdentifier'
-    ];
-
     public $incrementing = true;
 
     protected $dates = [
@@ -31,7 +27,6 @@ class Customer extends Model
         '3'   => 'Klasse 3'
     ];
 
-    // Diese Felder können per Massenzuweisung gefüllt werden
     protected $fillable = [
         'pass_number',
         'name1',
@@ -52,10 +47,6 @@ class Customer extends Model
         'deleted_at',
     ];
 
-    public function getItemIdentifierAttribute()
-    {
-        return $this->name1;
-    }
     public function getBirthDateAttribute($value)
     {
         return $value ? Carbon::parse($value)->format(config('custom.date_format')) : null;
