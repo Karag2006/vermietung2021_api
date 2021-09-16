@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\Response;
 //use Illuminate\Support\Facades\Gate;
 
 class CustomerController extends Controller
@@ -22,10 +23,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        // if(Gate::allows("view", Customer::class))
-        // {
-            return Customer::select('id', 'name1', 'name2', 'city', 'plz')->orderBy('name1')->get();
-        // }
+        $customerList = Customer::select('id', 'name1', 'name2', 'city', 'plz')->orderBy('name1')->get();
+        return response()->json($customerList, Response::HTTP_OK);
     }
 
     /**
@@ -36,11 +35,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        // if (Gate::allows("create", Customer::class)) {
-            // Hole den genannten Kunden aus der Datenbank.
-            //$customer = Customer::findOrFail($customer);
-
-            // Validiere den Input
+            // Validate the Input
             $this->validate($request, [
                 'pass_number'           =>  'nullable|string|min:8|max:30',
                 'name1'                 =>  'required|string|max:50',
@@ -54,14 +49,24 @@ class CustomerController extends Controller
                 'car_number'            =>  'nullable|string|min:5|max:20',
                 'email'                 =>  'nullable|email',
                 'driving_license_no'    =>  'nullable|string|min:6|max:15',
-                'driving_license_class' =>  'nullable|string|max:9',
-                'customer_type'         =>  'nullable|string|min:3|max:10',
-
+                'driving_license_class' =>  'nullable|string|max:9'
             ]);
 
-            Customer::create($request->all());
+            $customer = Customer::create($request->all());
 
-            return true;
+            // for the Response limit the elements of the newly created Customer
+            // to those that are also transfered in the Ressource List.
+            $customer = $customer->only([
+                'id',
+                'name1',
+                'name2',
+                'plz',
+                'city',
+            ]);
+
+            // Return the shortened entry of the new Customer to the Frontend,
+            // so the Frontend can update its own List, with the Validated Data
+            return response()->json($customer, Response::HTTP_CREATED);
         // }
     }
 
@@ -92,7 +97,7 @@ class CustomerController extends Controller
                 'driving_license_no',
                 'driving_license_class'
             ]);
-        return response()->json($customer);
+        return response()->json($customer, Response::HTTP_OK);
     }
 
     /**
@@ -123,8 +128,6 @@ class CustomerController extends Controller
                 'email'                 =>  'nullable|email',
                 'driving_license_no'    =>  'nullable|string|min:6|max:15',
                 'driving_license_class' =>  'nullable|string|max:9',
-                'customer_type'         =>  'nullable|string|min:3|max:10',
-
             ]);
 
             $customer->update($request->all());

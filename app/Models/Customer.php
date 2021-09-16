@@ -58,11 +58,11 @@ class Customer extends Model
     }
     public function getBirthDateAttribute($value)
     {
-        //return $value ? Carbon::parse($value)->format(config('custom.date_format')) : null;
+        return $value ? Carbon::parse($value)->format(config('custom.date_format')) : null;
     }
     public function setBirthDateAttribute($value)
     {
-        //$this->attributes['birth_date'] = $value ? Carbon::createFromFormat(config('custom.date_format'), $value)->format('Y-m-d') : null;
+        $this->attributes['birth_date'] = $value ? Carbon::createFromFormat(config('custom.date_format'), $value)->format('Y-m-d') : null;
     }
 
 }
