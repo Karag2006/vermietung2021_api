@@ -41,7 +41,7 @@ class Customer extends Model
         'driving_license_no',
         'driving_license_class',
         'car_number',
-        'customer_type',
+        'comment',
         'created_at',
         'updated_at',
         'deleted_at',

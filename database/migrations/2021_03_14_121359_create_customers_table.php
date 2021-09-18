@@ -50,8 +50,7 @@ class CreateCustomersTable extends Migration
             $table->string('driving_license_no')->nullable();
             // Führerschein Klasse
             $table->string('driving_license_class')->nullable();
-            // Kundentyp : Kunde, Fahrer oder Firma
-            $table->string('customer_type')->nullable();
+            $table->longText('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
             DB::statement('SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";');

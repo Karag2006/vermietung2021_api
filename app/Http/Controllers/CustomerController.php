@@ -49,7 +49,8 @@ class CustomerController extends Controller
                 'car_number'            =>  'nullable|string|min:5|max:20',
                 'email'                 =>  'nullable|email',
                 'driving_license_no'    =>  'nullable|string|min:6|max:15',
-                'driving_license_class' =>  'nullable|string|max:9'
+                'driving_license_class' =>  'nullable|string|max:9',
+                'comment'               =>  'nullable|string|max:1000'
             ]);
 
             $customer = Customer::create($request->all());
@@ -95,7 +96,8 @@ class CustomerController extends Controller
                 'car_number',
                 'email',
                 'driving_license_no',
-                'driving_license_class'
+                'driving_license_class',
+                'comment'
             ]);
         return response()->json($customer, Response::HTTP_OK);
     }
@@ -126,6 +128,7 @@ class CustomerController extends Controller
                 'email'                 =>  'nullable|email',
                 'driving_license_no'    =>  'nullable|string|min:6|max:15',
                 'driving_license_class' =>  'nullable|string|max:9',
+                'comment'               =>  'nullable|string|max:1000'
         ]);
 
         $customer->update($request->all());

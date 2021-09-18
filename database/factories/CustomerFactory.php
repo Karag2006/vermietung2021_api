@@ -37,7 +37,7 @@ class CustomerFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'driving_license_no' => Str::random(10),
             'driving_license_class' => $this->faker->randomElement($array = array('B', 'BE', 'B96', 'Klasse 3')),
-            'customer_type' => $this->faker->randomElement($array = array('Kunde', 'Firma', 'Fahrer')),
+            'comment' => $this->faker->text($maxNbChars = 200),
         ];
     }
 }
