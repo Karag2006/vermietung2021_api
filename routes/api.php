@@ -21,7 +21,11 @@ use App\Http\Controllers\CustomerController;
 Route::post('login', [UserController::class, 'authenticate']);
 
 Route::group(['middleware' => ['jwt.verify']], function () {
+    // Single Function Routes
     Route::get('nav', [NavController::class, 'index']);
+    Route::patch('pwChange', [UserController::class, 'changePassword']);
 
+    // Full CRUD Routes
+    Route::apiResource('user', UserController::class);
     Route::apiResource('customer', CustomerController::class);
 });
