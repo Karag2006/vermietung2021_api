@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\NavController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\TrailerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // Full CRUD Routes
     Route::apiResource('user', UserController::class);
     Route::apiResource('customer', CustomerController::class);
+    Route::apiResource('trailer', TrailerController::class);
 });
