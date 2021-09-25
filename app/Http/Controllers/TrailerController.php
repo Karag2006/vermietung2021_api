@@ -15,7 +15,7 @@ class TrailerController extends Controller
      */
     public function index()
     {
-        $trailerList = trailer::select('id', 'title', 'plateNumber', 'totalWeight', 'loadingSize')->orderBy('plateNumber')->get();
+        $trailerList = trailer::select('id', 'title', 'plateNumber', 'totalWeight', 'loadingSize', 'tuev')->orderBy('plateNumber')->get();
         return response()->json($trailerList, Response::HTTP_OK);
     }
 
@@ -48,6 +48,7 @@ class TrailerController extends Controller
             'plateNumber',
             'totalWeight',
             'loadingSize',
+            'tuev'
         ]);
 
         // Return the shortened entry of the new trailer to the Frontend,
@@ -106,6 +107,7 @@ class TrailerController extends Controller
             'plateNumber',
             'totalWeight',
             'loadingSize',
+            'tuev'
         ]);
 
         // Return the shortened entry of the new trailer to the Frontend,
