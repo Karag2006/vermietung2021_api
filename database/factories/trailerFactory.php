@@ -6,7 +6,7 @@ use App\Models\trailer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
 
-class TrailerFactory extends Factory
+class trailerFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
