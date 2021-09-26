@@ -23,7 +23,8 @@ class trailer extends Model
         'totalWeight',
         'usableWeight',
         'loadingSize',
-        'tuev'
+        'tuev',
+        'comment'
     ];
 
     public function getTuevAttribute($value)

@@ -36,6 +36,7 @@ class TrailerController extends Controller
             'usableWeight'          =>  'nullable|string|min:6|max:7',
             'loadingSize'           =>  'nullable|string|min:6|max:20',
             'tuev'                  =>  'nullable',
+            'comment'               =>  'nullable|string|max:1000'
         ]);
 
         $trailer = trailer::create($request->all());
@@ -71,7 +72,8 @@ class TrailerController extends Controller
             'totalWeight',
             'usableWeight',
             'loadingSize',
-            'tuev'
+            'tuev',
+            'comment'
         ]);
 
         return response()->json($trailer, Response::HTTP_OK);
@@ -95,6 +97,7 @@ class TrailerController extends Controller
             'usableWeight'          =>  'nullable|string|min:6|max:7',
             'loadingSize'           =>  'nullable|string|min:6|max:20',
             'tuev'                  =>  'nullable',
+            'comment'               =>  'nullable|string|max:1000'
         ]);
 
         $trailer->update($request->all());

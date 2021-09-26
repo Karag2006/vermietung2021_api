@@ -42,6 +42,7 @@ class trailerFactory extends Factory
                         $this->faker->numberBetween($min = 30, $max = 200)
                 ) . " cm",
             'tuev' => Carbon::parse($this->faker->dateTimeBetween($startDate = 'now', $endDate = '+2 years', NULL))->format('d.m.Y'),
+            'comment' => $this->faker->text($maxNbChars = 200),
         ];
     }
 }

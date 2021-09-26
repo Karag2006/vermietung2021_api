@@ -22,6 +22,7 @@ class CreateTrailersTable extends Migration
             $table->string('usableWeight')->nullable();
             $table->string('loadingSize')->nullable();
             $table->date('tuev')->nullable();
+            $table->longText('comment')->nullable();
             $table->timestamps();
         });
     }
