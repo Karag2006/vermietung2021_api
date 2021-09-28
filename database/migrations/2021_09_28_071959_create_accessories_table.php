@@ -15,6 +15,9 @@ class CreateAccessoriesTable extends Migration
     {
         Schema::create('accessories', function (Blueprint $table) {
             $table->id();
+            $table->integer('defaultNumber')->nullable();
+            $table->string('name');
+            $table->longText('details')->nullable();
             $table->timestamps();
         });
     }

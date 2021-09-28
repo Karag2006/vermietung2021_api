@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             NavSeeder::class,
             CustomerSeeder::class,
-            TrailerSeeder::class
+            TrailerSeeder::class,
+            AccessoriesSeeder::class,
         ]);
     }
 }
