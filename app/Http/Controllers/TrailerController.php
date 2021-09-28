@@ -66,6 +66,7 @@ class TrailerController extends Controller
     public function show(trailer $trailer)
     {
         $trailer = $trailer->only([
+            'id',
             'title',
             'plateNumber',
             'chassisNumber',
