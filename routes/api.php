@@ -3,10 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DataController;
 use App\Http\Controllers\NavController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TrailerController;
+use App\Http\Controllers\AccessoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,4 +30,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::apiResource('user', UserController::class);
     Route::apiResource('customer', CustomerController::class);
     Route::apiResource('trailer', TrailerController::class);
+    Route::apiResource('accessories', AccessoriesController::class);
 });
