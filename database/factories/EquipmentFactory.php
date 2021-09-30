@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Accessories;
+use App\Models\Equipment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AccessoriesFactory extends Factory
+class EquipmentFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Accessories::class;
+    protected $model = Equipment::class;
 
     /**
      * Define the model's default state.

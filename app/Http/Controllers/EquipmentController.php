@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Accessories;
+use App\Models\Equipment;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AccessoriesController extends Controller
+class EquipmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class AccessoriesController extends Controller
      */
     public function index()
     {
-        $accessoriesList = Accessories::select('id', 'name', 'details', 'defaultNumber')->orderBy('name')->get();
-        return response()->json($accessoriesList, Response::HTTP_OK);
+        $equipmentList = Equipment::select('id', 'name', 'details', 'defaultNumber')->orderBy('name')->get();
+        return response()->json($equipmentList, Response::HTTP_OK);
     }
 
     /**
@@ -33,44 +33,44 @@ class AccessoriesController extends Controller
             'defaultNumber'         =>  'nullable|digits_between:1,2'
         ]);
 
-        $accessory = Accessories::create($request->all());
+        $equipment = Equipment::create($request->all());
 
-        $accessory = $accessory->only([
+        $equipment = $equipment->only([
             'id',
             'name',
             'details',
             'defaultNumber',
         ]);
 
-        return response()->json($accessory, Response::HTTP_CREATED);
+        return response()->json($equipment, Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Accessories  $accessories
+     * @param  \App\Models\Equipment  $equipment
      * @return \Illuminate\Http\Response
      */
-    public function show(Accessories $accessories)
+    public function show(Equipment $equipment)
     {
-        $accessories = $accessories->only([
-            'id',
-            'name',
-            'details',
-            'defaultNumber',
-        ]);
+        // $equipment = $equipment->only([
+        //     'id',
+        //     'name',
+        //     'details',
+        //     'defaultNumber'
+        // ]);
 
-        return response()->json($accessories, Response::HTTP_OK);
+        return response()->json($equipment, Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Accessories  $accessories
+     * @param  \App\Models\Equipment  $equipment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Accessories $accessories)
+    public function update(Request $request, Equipment $equipment)
     {
         $this->validate($request, [
             'name'                  =>  'required|string|min:5|max:50',
@@ -78,31 +78,29 @@ class AccessoriesController extends Controller
             'defaultNumber'         =>  'nullable|digits_between:1,2'
         ]);
 
-        $accessories->update($request->all());
+        $equipment->update($request->all());
 
-        $accessories = $accessories->only([
+        $equipment = $equipment->only([
             'id',
             'name',
             'details',
             'defaultNumber',
         ]);
 
-        return response()->json($accessories, Response::HTTP_OK);
-
-
+        return response()->json($equipment, Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Accessories  $accessories
+     * @param  \App\Models\Equipment  $equipment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Accessories $accessories)
+    public function destroy(Equipment $equipment)
     {
-        $id = $accessories->id;
+        $id = $equipment->id;
 
-        $accessories->delete();
+        $equipment->delete();
 
         return response()->json($id, Response::HTTP_OK);
     }

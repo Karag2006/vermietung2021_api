@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NavController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TrailerController;
-use App\Http\Controllers\AccessoriesController;
+use App\Http\Controllers\EquipmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +30,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::apiResource('user', UserController::class);
     Route::apiResource('customer', CustomerController::class);
     Route::apiResource('trailer', TrailerController::class);
-    Route::apiResource('accessories', AccessoriesController::class);
+    Route::apiResource('equipment', EquipmentController::class);
 });

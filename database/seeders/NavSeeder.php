@@ -80,7 +80,7 @@ class NavSeeder extends Seeder
                 'id'                => 11,
                 'name'              => 'Zubehör',
                 'icon'              => 'fas fa-sitemap',
-                'link'              => '/accessories',
+                'link'              => '/equipment',
             ],
             [
                 'id'                => 12,
