@@ -53,12 +53,12 @@ class EquipmentController extends Controller
      */
     public function show(Equipment $equipment)
     {
-        // $equipment = $equipment->only([
-        //     'id',
-        //     'name',
-        //     'details',
-        //     'defaultNumber'
-        // ]);
+        $equipment = $equipment->only([
+            'id',
+            'name',
+            'details',
+            'defaultNumber'
+        ]);
 
         return response()->json($equipment, Response::HTTP_OK);
     }
