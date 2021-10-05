@@ -7,6 +7,7 @@ use App\Http\Controllers\NavController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TrailerController;
 use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\OptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,4 +32,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::apiResource('customer', CustomerController::class);
     Route::apiResource('trailer', TrailerController::class);
     Route::apiResource('equipment', EquipmentController::class);
+    Route::apiResource('options', OptionController::class);
 });
