@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TrailerController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\OptionController;
+use App\Http\Controllers\CollectAddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::apiResource('trailer', TrailerController::class);
     Route::apiResource('equipment', EquipmentController::class);
     Route::apiResource('options', OptionController::class);
+    Route::apiResource('collectAddress', CollectAddressController::class);
 });

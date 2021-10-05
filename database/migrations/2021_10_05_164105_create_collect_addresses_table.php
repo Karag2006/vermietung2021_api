@@ -15,6 +15,8 @@ class CreateCollectAddressesTable extends Migration
     {
         Schema::create('collect_addresses', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('address');
             $table->timestamps();
         });
     }
