@@ -28,8 +28,8 @@ class CollectAddressController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'                  =>  'required|string|min:5|max:20',
-            'address'               =>  'required|string|max:50',
+            'name'                  =>  'required|string|min:3|max:30',
+            'address'               =>  'required|string|max:100',
         ]);
 
         $address = CollectAddress::create($request->all());
@@ -69,8 +69,8 @@ class CollectAddressController extends Controller
     public function update(Request $request, CollectAddress $collectAddress)
     {
         $this->validate($request, [
-            'name'                  =>  'required|string|min:5|max:20',
-            'address'               =>  'required|string|max:50',
+            'name'                  =>  'required|string|min:3|max:30',
+            'address'               =>  'required|string|max:100',
         ]);
 
         $collectAddress->update($request->all());
