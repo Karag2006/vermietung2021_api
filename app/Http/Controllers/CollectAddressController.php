@@ -15,7 +15,8 @@ class CollectAddressController extends Controller
      */
     public function index()
     {
-        return response()->json(CollectAddress::all(), Response::HTTP_OK);
+        $collectAddressList = CollectAddress::select('id', 'name', 'address')->orderBy('name')->get();
+        return response()->json($collectAddressList, Response::HTTP_OK);
     }
 
     /**
@@ -33,6 +34,12 @@ class CollectAddressController extends Controller
 
         $address = CollectAddress::create($request->all());
 
+        $address = $address->only([
+            'id',
+            'name',
+            'address'
+        ]);
+
         return response()->json($address, Response::HTTP_CREATED);
     }
 
@@ -44,6 +51,11 @@ class CollectAddressController extends Controller
      */
     public function show(CollectAddress $collectAddress)
     {
+        $collectAddress = $collectAddress->only([
+            'id',
+            'name',
+            'address'
+        ]);
         return response()->json($collectAddress, Response::HTTP_OK);
     }
 
@@ -62,6 +74,12 @@ class CollectAddressController extends Controller
         ]);
 
         $collectAddress->update($request->all());
+
+        $collectAddress = $collectAddress->only([
+            'id',
+            'name',
+            'address'
+        ]);
 
         return response()->json($collectAddress, Response::HTTP_OK);
     }
