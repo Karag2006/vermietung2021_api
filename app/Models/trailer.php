@@ -10,6 +10,11 @@ class trailer extends Model
 {
     use HasFactory;
 
+    public function Documents()
+    {
+        return $this->hasMany(Document::class, 'vehicle_id');
+    }
+
     protected $dates = [
         'tuev',
         'created_at',

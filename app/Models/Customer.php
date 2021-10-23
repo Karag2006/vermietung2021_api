@@ -13,6 +13,15 @@ class Customer extends Model
 
     public $incrementing = true;
 
+    public function Documents()
+    {
+        return $this->hasMany(Document::class, 'customer_id');
+    }
+    public function DriverDocuments()
+    {
+        return $this->hasMany(Document::class, 'driver_id');
+    }
+
     protected $dates = [
         'birth_date',
         'created_at',

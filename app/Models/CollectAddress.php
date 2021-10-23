@@ -9,6 +9,10 @@ class CollectAddress extends Model
 {
     use HasFactory;
 
+    public function Documents(){
+        return $this->hasMany(Document::class, 'collect_address_id');
+    }
+
     protected $fillable = [
         'name',
         'address',

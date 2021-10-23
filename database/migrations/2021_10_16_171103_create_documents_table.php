@@ -45,6 +45,7 @@ class CreateDocumentsTable extends Migration
             $table->string('contractBailType')->nullable();
             $table->boolean('contractBailRecieved')->default(false);
             $table->boolean('contractBailReturned')->default(false);
+            $table->bigInteger('user_id')->nullable();
             $table->timestamps();
 
 
@@ -68,7 +69,7 @@ class CreateDocumentsTable extends Migration
             // Driver Values
             $table->bigInteger('driver_id')->nullable();
             $table->string('driver_pass_number')->nullable();
-            $table->string('driver_name1');
+            $table->string('driver_name1')->nullable();
             $table->string('driver_name2')->nullable();
             $table->string('driver_street')->nullable();
             $table->integer('driver_plz')->nullable();
@@ -80,6 +81,32 @@ class CreateDocumentsTable extends Migration
             $table->string('driver_email')->nullable();
             $table->string('driver_driving_license_no')->nullable();
             $table->string('driver_driving_license_class')->nullable();
+
+
+            // Vehicle Values
+            $table->bigInteger('vehicle_id')->nullable();
+            $table->string('vehicle_title')->nullable();
+            $table->string('vehicle_plateNumber')->nullable();
+            $table->string('vehicle_chassisNumber')->nullable();
+            $table->string('vehicle_totalWeight')->nullable();
+            $table->string('vehicle_usableWeight')->nullable();
+            $table->string('vehicle_loadingSize')->nullable();
+
+
+            // Settings
+            $table->integer('vat');
+            $table->longText('offer_note')->nullable();
+            $table->longText('reservation_note')->nullable();
+            $table->longText('contract_note')->nullable();
+            $table->longText('document_footer')->nullable();
+            $table->longText('contactdata')->nullable();
+
+
+            // Collect Address
+            $table->bigInteger('collect_address_id')->nullable();
+
+
+
         });
     }
 
