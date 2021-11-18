@@ -43,8 +43,10 @@ class CreateDocumentsTable extends Migration
             $table->float('contractBail', 15, 2)->nullable();
             $table->date('contractBailDate')->nullable();
             $table->string('contractBailType')->nullable();
+            $table->string('contractBailReturnType')->nullable();
             $table->boolean('contractBailRecieved')->default(false);
             $table->boolean('contractBailReturned')->default(false);
+            $table->longText('comment')->nullable();
             $table->bigInteger('user_id')->nullable();
             $table->timestamps();
 
@@ -64,6 +66,7 @@ class CreateDocumentsTable extends Migration
             $table->string('customer_email')->nullable();
             $table->string('customer_driving_license_no')->nullable();
             $table->string('customer_driving_license_class')->nullable();
+            $table->longText('customer_comment')->nullable();
 
 
             // Driver Values
@@ -81,6 +84,7 @@ class CreateDocumentsTable extends Migration
             $table->string('driver_email')->nullable();
             $table->string('driver_driving_license_no')->nullable();
             $table->string('driver_driving_license_class')->nullable();
+            $table->longText('driver_comment')->nullable();
 
 
             // Vehicle Values
@@ -91,6 +95,7 @@ class CreateDocumentsTable extends Migration
             $table->string('vehicle_totalWeight')->nullable();
             $table->string('vehicle_usableWeight')->nullable();
             $table->string('vehicle_loadingSize')->nullable();
+            $table->longText('vehicle_comment')->nullable();
 
 
             // Settings
