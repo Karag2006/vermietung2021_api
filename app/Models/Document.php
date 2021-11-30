@@ -132,5 +132,8 @@ class Document extends Model
 
         // Collect Address
         'collect_address_id',
+
+        // Equipment List
+        'selectedEquipmentList'
     ];
 }

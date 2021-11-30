@@ -110,6 +110,9 @@ class CreateDocumentsTable extends Migration
             // Collect Address
             $table->bigInteger('collect_address_id')->nullable();
 
+            // Equipment List
+            $table->longText('selectedEquipmentList')->nullable();
+
 
 
         });

@@ -9,6 +9,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OfferController extends Controller
 {
+
+    public function gethighestNumber(){
+        $number = Document::select('offerNumber')
+            ->orderBy('offerNumber', 'desc')
+            ->first();
+
+        if ($number) {
+            $number = $number->offerNumber;
+            return response()->json($number, Response::HTTP_OK);
+        }
+        $number = 26538;
+        return response()->json($number, Response::HTTP_OK);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,6 +45,8 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
+        $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
+
         $offer = Document::create($request->all());
 
         // for the Response limit the elements of the newly created Customer
@@ -42,7 +58,8 @@ class OfferController extends Controller
             'returnDate',
             'customer_name1',
             'vehicle_title',
-            'vehicle_plateNumber'
+            'vehicle_plateNumber',
+            'selectedEquipmentList'
         ]);
 
         // Return the shortened entry of the new Customer to the Frontend,
