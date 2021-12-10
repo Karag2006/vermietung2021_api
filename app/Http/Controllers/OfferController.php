@@ -46,12 +46,13 @@ class OfferController extends Controller
     public function store(Request $request)
     {
         $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
-        $request['vat'] = 19;
 
         $offer = Document::create($request->all());
 
         // for the Response limit the elements of the newly created Customer
         // to those that are also transfered in the Ressource List.
+
+        $offer["selectedEquipmentList"] = json_decode($offer["selectedEquipmentList"]);
         $offer = $offer->only([
             'id',
             'offerNumber',
