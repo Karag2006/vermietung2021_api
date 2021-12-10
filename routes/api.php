@@ -28,7 +28,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     // Single Function Routes
     Route::get('nav', [NavController::class, 'index']);
     Route::patch('pwChange', [UserController::class, 'changePassword']);
-    Route::get('offer/highestNumber', [OfferController::class, 'gethighestNumber']);
+    Route::get('offer/highestNumber', [OfferController::class, 'getHighestNumber']);
 
     // Full CRUD Routes
     Route::apiResource('user', UserController::class);

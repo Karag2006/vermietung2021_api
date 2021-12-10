@@ -44,12 +44,11 @@ class CreateDocumentsTable extends Migration
             $table->date('contractBailDate')->nullable();
             $table->string('contractBailType')->nullable();
             $table->string('contractBailReturnType')->nullable();
-            $table->boolean('contractBailRecieved')->default(false);
-            $table->boolean('contractBailReturned')->default(false);
+            $table->boolean('contractBailRecieved')->default(false)->nullable();
+            $table->boolean('contractBailReturned')->default(false)->nullable();
             $table->longText('comment')->nullable();
             $table->bigInteger('user_id')->nullable();
             $table->timestamps();
-
 
             // Customer Values
             $table->bigInteger('customer_id')->nullable();
@@ -68,7 +67,6 @@ class CreateDocumentsTable extends Migration
             $table->string('customer_driving_license_class')->nullable();
             $table->longText('customer_comment')->nullable();
 
-
             // Driver Values
             $table->bigInteger('driver_id')->nullable();
             $table->string('driver_pass_number')->nullable();
@@ -86,7 +84,6 @@ class CreateDocumentsTable extends Migration
             $table->string('driver_driving_license_class')->nullable();
             $table->longText('driver_comment')->nullable();
 
-
             // Vehicle Values
             $table->bigInteger('vehicle_id')->nullable();
             $table->string('vehicle_title')->nullable();
@@ -97,7 +94,6 @@ class CreateDocumentsTable extends Migration
             $table->string('vehicle_loadingSize')->nullable();
             $table->longText('vehicle_comment')->nullable();
 
-
             // Settings
             $table->integer('vat');
             $table->longText('offer_note')->nullable();
@@ -106,15 +102,11 @@ class CreateDocumentsTable extends Migration
             $table->longText('document_footer')->nullable();
             $table->longText('contactdata')->nullable();
 
-
             // Collect Address
             $table->bigInteger('collect_address_id')->nullable();
 
             // Equipment List
             $table->longText('selectedEquipmentList')->nullable();
-
-
-
         });
     }
 

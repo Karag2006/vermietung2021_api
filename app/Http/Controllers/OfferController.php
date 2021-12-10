@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class OfferController extends Controller
 {
 
-    public function gethighestNumber(){
+    public function getHighestNumber(){
         $number = Document::select('offerNumber')
             ->orderBy('offerNumber', 'desc')
             ->first();
@@ -46,6 +46,7 @@ class OfferController extends Controller
     public function store(Request $request)
     {
         $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
+        $request['vat'] = 19;
 
         $offer = Document::create($request->all());
 
