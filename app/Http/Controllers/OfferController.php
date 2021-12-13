@@ -100,6 +100,13 @@ class OfferController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Get Document with the id of $id
+        $document = Document::where("id", $id)->first();
+
+        // Delete the selected Document
+        $document->delete();
+
+        // include the id in the Response, so the Frontend can update its list.
+        return response()->json($id, Response::HTTP_OK);
     }
 }
