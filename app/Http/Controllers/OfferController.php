@@ -77,7 +77,10 @@ class OfferController extends Controller
      */
     public function show($id)
     {
-        //
+        // Get Document with the id of $id
+        $document = Document::where("id", $id)->first();
+
+        return response()->json($document, Response::HTTP_OK);
     }
 
     /**
