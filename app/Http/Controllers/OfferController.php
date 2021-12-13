@@ -80,6 +80,8 @@ class OfferController extends Controller
         // Get Document with the id of $id
         $document = Document::where("id", $id)->first();
 
+        $document["selectedEquipmentList"] = json_decode($document["selectedEquipmentList"]);
+
         return response()->json($document, Response::HTTP_OK);
     }
 
