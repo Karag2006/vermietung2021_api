@@ -94,7 +94,28 @@ class OfferController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Validate Input
+
+        // Get Document with the id of $id
+        $document = Document::where("id", $id)->first();
+
+        $document->update($request->all());
+
+        $document = $document->only([
+            'id',
+            'offerNumber',
+            'collectDate',
+            'returnDate',
+            'customer_name1',
+            'vehicle_title',
+            'vehicle_plateNumber',
+            'selectedEquipmentList'
+        ]);
+
+        return response()->json(
+            $document,
+            Response::HTTP_OK
+        );
     }
 
     /**
