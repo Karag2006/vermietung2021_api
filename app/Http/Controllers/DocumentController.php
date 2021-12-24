@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
+
+    public function downloadPDF(Document $document)
+    {
+        return response()->download(public_path('offers/test.pdf'), 'test.pdf');
+    }
     /**
      * Display a listing of the resource.
      *

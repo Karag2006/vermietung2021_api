@@ -10,6 +10,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\CollectAddressController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\DocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('nav', [NavController::class, 'index']);
     Route::patch('pwChange', [UserController::class, 'changePassword']);
     Route::get('offer/highestNumber', [OfferController::class, 'getHighestNumber']);
+    Route::get('document/{id}', [DocumentController::class, 'downloadPDF']);
 
     // Full CRUD Routes
     Route::apiResource('user', UserController::class);
