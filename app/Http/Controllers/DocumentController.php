@@ -4,13 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
+use PDF;
 
 class DocumentController extends Controller
 {
 
-    public function downloadPDF(Document $document)
+    public function downloadPDF($id)
     {
-        return response()->download(public_path('offers/test.pdf'), 'test.pdf');
+        $document = Document::where("id", $id)->first();
+
+        $data = [
+            'title' => $document->customer_name1,
+            'test' => $document,
+            'date' => $document->collectDate
+        ];
+
+        $pdf = PDF::loadView('testPDF', $data);
+        $path = 'storage/' . $document->currentState . '/';
+        $savePath = public_path($path);
+        $fileName = $document->currentState . '-' . $document->offerNumber . '.pdf';
+        $pdf->save($savePath . $fileName);
+
+        $generatedPDFLink = url($path . $fileName);
+
+        return response()->json($generatedPDFLink);
     }
     /**
      * Display a listing of the resource.
