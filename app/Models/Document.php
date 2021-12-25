@@ -74,6 +74,7 @@ class Document extends Model
         'contractBailType',
         'contractBailRecieved',
         'contractBailReturned',
+        'username',
 
 
 

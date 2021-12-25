@@ -13,16 +13,37 @@ class DocumentController extends Controller
     {
         $document = Document::where("id", $id)->first();
 
+        if ($document->currentState == 'offer') {
+            $DEtype = "Angebot";
+            $number = $document->offerNumber;
+            $documentDate = $document->offerDate;
+            $note = $document->offer_note;
+        }
+        if ($document->currentState == 'reservation') {
+            $DEtype = "Reservierung";
+            $number = $document->reservationNumber;
+            $documentDate = $document->reservationDate;
+            $note = $document->reservation_note;
+        }
+        if ($document->currentState == 'contract') {
+            $DEtype = "Mietvertrag";
+            $number = $document->contractNumber;
+            $documentDate = $document->contractDate;
+            $note = $document->contract_note;
+        }
+
         $data = [
-            'title' => $document->customer_name1,
-            'test' => $document,
-            'date' => $document->collectDate
+            'document' => $document,
+            'number' => $number,
+            'DEtype' => $DEtype,
+            'documentDate' => $documentDate,
+            'note' => $note,
         ];
 
-        $pdf = PDF::loadView('testPDF', $data);
+        $pdf = PDF::loadView('DocumentToPDF', $data);
         $path = 'storage/' . $document->currentState . '/';
         $savePath = public_path($path);
-        $fileName = $document->currentState . '-' . $document->offerNumber . '.pdf';
+        $fileName = $document->currentState . '-' . $number . '.pdf';
         $pdf->save($savePath . $fileName);
 
         $generatedPDFLink = url($path . $fileName);
