@@ -1,9 +1,23 @@
 
-{{--<link href="http://127.0.0.1:8000/css/bootstrap.min.css" rel="stylesheet" />--}}
 <style>
+    @@font-face{
+        font-family: 'Verdana';
+        font-weight: normal;
+        font-style: normal;
+        src: url({{ storage_path('fonts/Verdana.ttf') }}) format("truetype");
+    }
+
+    @@font-face{
+        font-family: 'Verdana';
+        font-weight: bold;
+        font-style: normal;
+        src: url({{ storage_path('fonts/Verdana Bold.ttf') }}) format("truetype");
+    }
     body
     {
         margin: -2mm 0mm -2mm 0mm;
+        font-size: x-small;
+        font-family: "Helvetica";
     }
     #invoice-print{
         padding: 0;
@@ -55,8 +69,12 @@
         background-color: #d9d9d9;
         border: 0.01em solid #333;
         font-weight: bold;
-        font-family: Helvetica !important;
+        font-family: "Helvetica";
 
+    }
+
+    .td-info-left {
+        width: 80mm;
     }
    .header-right {
         padding-top: 0;
@@ -73,6 +91,7 @@
        padding: 7px;
    }
     .contact{
+        font-size: 14px;
     }
     td img{
         display: block;
@@ -104,95 +123,26 @@
 </style>
 
 <body>
-    {{-- TODO: Add All Settings to the Document so they are available for the PDF --}}
-<div id="invoice-print" class="invoice-print">
+    <div id="invoice-print" class="invoice-print">
         {{--   starts header section--}}
-
-    <table CELLSPACING=0 width="100%" style="background-color: #00205c; color: white; font-family: Helvetica !important;" >
-    <tr>
-        <td width="140" style="text-align: center;"><img class="logo" src="img/logo.jpg" /></td>
-        <td class="header-border"><div class="contact">{{ $document->contactdata }}</div></td>
-        <td class="header-border" valign="top">
-            <div class="header-right">{{ $DEtype }} für Mietanhänger</div>
-            <div class="header-right">Nr. : {{$number}}.{{ $documentDate->format('y') }}</div>
-            <div class="header-right">Datum: {{$documentDate->format('d.m.Y')}}</div>
-        </td>
-    </tr>
-    </table>
-        <hr>
+        @include('PDFComponents.Header')
         {{--   end header section--}}
 
-      {{--  Start Customer section--}}
+        {{--  Start Customer section--}}
         <table CELLSPACING=0 width="100%">
-            <tr>
-                <td class="txt-bold" width="57">Name:</td>
-                <td class="td-info">{{ $document->customer_name1 ?? '' }}</td>
-                <td class="txt-bold pl-4" width="80">Name2:</td>
-                <td class="td-info">{{ $document->customer_name2 ?? '' }}</td>
-            </tr>
-            <tr>
-                <td class="txt-bold">Straße:</td>
-                <td class="td-info">{{ $document->customer_street ?? '' }}</td>
-                <td class="txt-bold pl-4">PLZ/Ort:</td>
-                <td class="td-info">{{ $document->customer_plz ?? '' }} {{ $document->customer_city ?? '' }}</td>
-            </tr>
-            <tr>
-                <td class="txt-bold">Telefon:</td>
-                <td class="td-info">{{ $document->customer_phone ?? '' }}</td>
-                <td class="txt-bold pl-4">eMail Adresse:</td>
-                <td class="td-info">{{ $document->customer_email ?? '' }}</td>
-            </tr>
-            <tr>
-                <td colspan="4" height="12px"> </td>
-               </tr>
-            <tr>
-                <td > </td>
-                <td  ></td>
-                <td class="txt-bold pl-4">Mitarbeiter: </td>
-                <td class="td-info"> {{ $document->username ?? '' }}</td>
-            </tr>
+            @include('PDFComponents.CustomerData')
+            @include('PDFComponents.DriverData')
         </table>
+        @if ($document->currentState == "contract")
+            @include('PDFComponents.PersonalInfo')
+        @endif
         {{--  End Customer section--}}
 
 
         {{--vehicle section--}}
-
-        <table class="mr-t pt-2" width="100%">
-            <tr>
-                <td></td>
-                <td  class="text-left txt-bold txt-lg">&nbsp;</td>
-                <td class="text-left txt-bold txt-lg pl">&nbsp;</td>
-            </tr>
-            <tr>
-                <td width="175" class="txt-bold">{{ $DEtype }} für folgenden Anhänger:</td>
-                <td width="110" class="text-left txt-bold">Anhänger:</td>
-                <td  class="text-left txt-bold txt-lg pl">{{ $document->vehicle_title ?? '' }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td class="text-left txt-bold txt-lg">Kennzeichen:</td>
-                <td  class="text-left txt-bold txt-lg pl">{{ $document->vehicle_plateNumber ?? '' }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td class="text-left txt-bold txt-lg">Nutzlast:</td>
-                <td class="text-left txt-bold txt-lg pl">{{ $document->vehicle_usableWeight ?? '' }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td class="text-left txt-bold txt-lg">Zul. Gesamtgewicht:</td>
-                <td class="text-left txt-bold txt-lg pl">{{ $document->vehicle_totalWeight ?? '' }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td  class="text-left txt-bold txt-lg">Lademaße:</td>
-                <td class="text-left txt-bold txt-lg pl">{{ $document->vehicle_loadingSize ?? '' }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td  class="text-left txt-bold txt-lg">&nbsp;</td>
-                <td class="text-left txt-bold txt-lg pl">&nbsp;</td>
-            </tr>
+        <table width="100%" style="margin-top: 20px">
+            @include('PDFComponents.VehicleInfo')
+        </table>
             {{-- TODO: Add the selectedEquipmentList to the PDF in a usable way --}}
             {{-- @if ($document->vehicle_accessories_details->count() > 0)
             <tr>
@@ -207,11 +157,6 @@
             </tr>
 
             @endif --}}
-            <tr>
-                <td></td>
-                <td  class="text-left txt-bold txt-lg">&nbsp;</td>
-                <td class="text-left txt-bold txt-lg pl">&nbsp;</td>
-            </tr>
             {{-- TODO: add Comment to the documents --}}
             {{-- @if ($document->comment)
             <tr>
@@ -221,7 +166,6 @@
             </tr>
 
             @endif --}}
-        </table>
 
         <hr class="mr-t" size="1" width="300" align="center">
         <table class="mr-t" width="50%">
