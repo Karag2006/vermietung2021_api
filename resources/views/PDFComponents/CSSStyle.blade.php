@@ -26,7 +26,6 @@
         display: none;
     }
     .logo{
-    /*  max-width: 120px;*/
         margin-left: auto;
         margin-right: auto;
         width: 220px;
@@ -69,7 +68,6 @@
         border: 0.01em solid #333;
         font-weight: bold;
         font-family: "Helvetica";
-
     }
 
     .td-info-left {
@@ -80,10 +78,10 @@
         padding-bottom: 6px;
         margin-top: 0;
         margin-bottom: 0;
-       font-size: 18px;
-       font-weight: bold;
-       text-align: right;
-       font-family: Helvetica !important;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: right;
+        font-family: Helvetica !important;
     }
    .header-border{
        border: 1px solid   #000;
@@ -104,11 +102,8 @@
     .pl-2{
         padding-left: 6px;
     }
-    textarea{
 
-    }
-
-    .bottom_element {
+    .signature {
         width: 100%;
         text-align: left;
         color: #000;
@@ -116,7 +111,6 @@
 
         position: absolute;
         bottom: 55px;
-        width: 100%;
     }
 
     .customerTable{

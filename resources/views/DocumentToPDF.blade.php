@@ -3,7 +3,7 @@
     <div id="invoice-print" class="invoice-print">
 
         @include('PDFComponents.Header')
-
+        <hr>
 
         {{--  Start Customer section--}}
         <table class="customerTable">
@@ -43,6 +43,8 @@
         </table>
 
         @include('PDFComponents.Note')
+
+        @include('PDFComponents.CollectAdress')
 
         @if ($document->currentState == 'contract')
             @include('PDFComponents.Signature')
