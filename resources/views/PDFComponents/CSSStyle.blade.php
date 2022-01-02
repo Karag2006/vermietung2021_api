@@ -1,3 +1,19 @@
+@php
+    // Table Column Sizes
+    $sizeOne = 35;
+    $sizeTwo = 30;
+    $sizeThree = 20;
+    $sizeFour = 30;
+    $sizeFive = 23;
+    $sizeSix = 35;
+    $size2Span3 = $sizeTwo + $sizeThree + $sizeFour;
+
+    // Note Font Size calculation
+    $str_lines = str_word_count( $note )/12;
+    $fsize =  ($str_lines > 12) ? 'smaller': '' ;
+
+@endphp
+
 <style>
     @@font-face{
         font-family: 'Verdana';
@@ -15,7 +31,7 @@
     body
     {
         margin: -2mm 0mm -2mm 0mm;
-        font-size: x-small;
+        font-size: 0.7em;
         font-family: "Helvetica";
     }
     #invoice-print{
@@ -122,6 +138,54 @@
     .mainTable{
         width: 100%;
         margin: 30px auto
+    }
+
+    .mainTable .tdOne {
+        width: {{ $sizeOne }} mm;
+    }
+
+    .mainTable .tdTwo {
+        width: {{ $sizeTwo }} mm;
+    }
+
+    .mainTable .tdThree {
+        width: {{ $sizeThree }} mm;
+    }
+
+    .mainTable .tdFour {
+        width: {{ $sizeFour }} mm;
+    }
+    .mainTable .tdFive {
+        width: {{ $sizeFive }} mm;
+    }
+
+    .mainTable .tdTwoSpanThree {
+        width: {{ $size2Span3 }} mm;
+    }
+
+    .noteHead{
+        margin-bottom: 0;
+        margin-top: 1em;
+        text-decoration: underline;
+    }
+    .note{
+        display:block;
+        width:100%;
+        max-height:200px;
+        overflow:hidden;
+        margin-bottom: 2em;
+        font-size: {{$fsize}};
+    }
+
+    .collectAdressContainer{
+        margin-bottom: 7px;
+        margin-top: 7px;
+    }
+
+    .collectAdressSpan{
+        display:block;
+        padding-bottom:6px;
+        font-weight: bold
     }
 
 </style>
