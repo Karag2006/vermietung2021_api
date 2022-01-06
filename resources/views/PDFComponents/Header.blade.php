@@ -2,7 +2,7 @@
     <tr>
         <td width="140" style="text-align: center;"><img class="logo" src="img/logo.jpg" /></td>
         <td class="header-border"><div class="contact">{!! $document->contactdata !!}</div></td>
-        <td class="header-border" valign="top">
+        <td class="header-border">
             @switch($document->currentState)
                 @case("offer")
                     <div class="header-right">Angebot für Mietanhänger</div>

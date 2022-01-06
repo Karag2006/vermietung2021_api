@@ -90,11 +90,10 @@
         width: 80mm;
     }
    .header-right {
-        padding-top: 0;
+        padding-top: 0px;
         padding-bottom: 6px;
-        margin-top: 0;
-        margin-bottom: 0;
-        font-size: 18px;
+        margin: 0;
+        font-size: 0.9rem;
         font-weight: bold;
         text-align: right;
         font-family: Helvetica !important;

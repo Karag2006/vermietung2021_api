@@ -7,20 +7,20 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-class OfferController extends Controller
+class ReservationController extends Controller
 {
 
     public function getHighestNumber(){
-        $number = Document::select('offerNumber')
-            ->where('currentState', 'offer')
-            ->orderBy('offerNumber', 'desc')
+        $data = Document::select('reservationNumber')
+            ->where('currentState', 'reservation')
+            ->orderBy('reservationNumber', 'desc')
             ->first();
 
-        if ($number) {
-            $number = $number->offerNumber;
+        if ($data) {
+            $number = $data->reservationNumber;
             return response()->json($number, Response::HTTP_OK);
         }
-        $number = 26538;
+        $number = 265382;
         return response()->json($number, Response::HTTP_OK);
     }
 
@@ -31,11 +31,11 @@ class OfferController extends Controller
      */
     public function index()
     {
-        $offerList = Document::select('id', 'offerNumber', 'collectDate', 'returnDate', 'customer_name1', 'vehicle_title', 'vehicle_plateNumber')
-            ->where('currentState', 'offer')
-            ->orderBy('offerNumber', 'desc')
+        $reservationList = Document::select('id', 'reservationNumber', 'collectDate', 'returnDate', 'customer_name1', 'vehicle_title', 'vehicle_plateNumber')
+            ->where('currentState', 'reservation')
+            ->orderBy('reservationNumber', 'desc')
             ->get();
-        return response()->json($offerList, Response::HTTP_OK);
+        return response()->json($reservationList, Response::HTTP_OK);
     }
 
     /**
@@ -48,15 +48,15 @@ class OfferController extends Controller
     {
         $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
 
-        $offer = Document::create($request->all());
+        $reservation = Document::create($request->all());
 
         // for the Response limit the elements of the newly created Customer
         // to those that are also transfered in the Ressource List.
 
-        $offer["selectedEquipmentList"] = json_decode($offer["selectedEquipmentList"]);
-        $offer = $offer->only([
+        $reservation["selectedEquipmentList"] = json_decode($reservation["selectedEquipmentList"]);
+        $reservation = $reservation->only([
             'id',
-            'offerNumber',
+            'reservationNumber',
             'collectDate',
             'returnDate',
             'customer_name1',
@@ -67,7 +67,7 @@ class OfferController extends Controller
 
         // Return the shortened entry of the new Customer to the Frontend,
         // so the Frontend can update its own List, with the Validated Data
-        return response()->json($offer, Response::HTTP_CREATED);
+        return response()->json($reservation, Response::HTTP_CREATED);
     }
 
     /**
@@ -104,7 +104,7 @@ class OfferController extends Controller
 
         $document = $document->only([
             'id',
-            'offerNumber',
+            'reservationNumber',
             'collectDate',
             'returnDate',
             'customer_name1',

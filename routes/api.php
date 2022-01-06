@@ -10,6 +10,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\CollectAddressController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\DocumentController;
 
 /*
@@ -30,6 +31,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('nav', [NavController::class, 'index']);
     Route::patch('pwChange', [UserController::class, 'changePassword']);
     Route::get('offer/highestNumber', [OfferController::class, 'getHighestNumber']);
+    Route::get('reservation/highestNumber', [ReservationController::class, 'getHighestNumber']);
     Route::get('document/{id}', [DocumentController::class, 'downloadPDF']);
 
     // Full CRUD Routes
@@ -40,4 +42,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::apiResource('options', OptionController::class);
     Route::apiResource('collectAddress', CollectAddressController::class);
     Route::apiResource('offer', OfferController::class);
+    Route::apiResource('reservation', ReservationController::class);
 });
