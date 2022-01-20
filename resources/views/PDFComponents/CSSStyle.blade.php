@@ -125,7 +125,7 @@
         padding: 0px 0;
 
         position: absolute;
-        bottom: 55px;
+        bottom: 75px;
     }
 
     .customerTable{

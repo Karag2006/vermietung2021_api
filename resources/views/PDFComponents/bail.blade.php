@@ -21,12 +21,22 @@
 @if ($document->currentState == 'contract')
 
     <tr>
-        <td class="tdOne text-left txt-bold txt-lg"></td>
-        <td class="tdTwo td-info text-right txt-bold pl-2"></td>
-        <td class="tdThree td-info text-left txt-bold">{{ $document->contractBailDate ? $document->contractBailDate->format('d.m.Y') : '' }}</td>
-        <td class="tdFour td-info text-left txt-bold">{{ $document->contractBailType ?? '' }}</td>
-        <td class="tdFive td-info text-left txt-bold">{{ $document->contractBailReturnDate ? $document->contractBailReturnDate->format('d.m.Y') : '' }}</td>
-        <td class="tdSix td-info text-left txt-bold">{{ $document->contractBailReturnType ?? '' }}</td>
+        <td class="tdOne text-left txt-bold txt-lg">&nbsp;</td>
+        <td class="tdTwo text-right txt-bold pl-2"></td>
+        @if ($document->contractBailRecieved)
+            <td class="tdThree td-info text-left txt-bold">{{ $document->contractBailDate ? $document->contractBailDate->format('d.m.Y') : '' }}</td>
+            <td class="tdFour td-info text-left txt-bold">{{ $document->contractBailType ?? '' }}</td>
+        @else
+            <td class="tdThree td-info text-left txt-bold"></td>
+            <td class="tdFour td-info text-left txt-bold"></td>
+        @endif
+        @if ($document->contractBailReturned)
+            <td class="tdFive td-info text-left txt-bold">{{ $document->contractBailReturnDate ? $document->contractBailReturnDate->format('d.m.Y') : '' }}</td>
+            <td class="tdSix td-info text-left txt-bold">{{ $document->contractBailReturnType ?? '' }}</td>
+        @else
+            <td class="tdFive td-info text-left txt-bold"></td>
+            <td class="tdSix td-info text-left txt-bold"></td>
+        @endif
     </tr>
 
 @endif
