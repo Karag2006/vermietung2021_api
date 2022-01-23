@@ -186,5 +186,8 @@
         padding-bottom:6px;
         font-weight: bold
     }
+    .bailRowTwo{
+        padding-top: 7px;
+    }
 
 </style>

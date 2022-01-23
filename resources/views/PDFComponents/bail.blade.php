@@ -20,7 +20,7 @@
 </tr>
 @if ($document->currentState == 'contract')
 
-    <tr>
+    <tr class="bailRowTwo">
         <td class="tdOne text-left txt-bold txt-lg">&nbsp;</td>
         <td class="tdTwo text-right txt-bold pl-2"></td>
         @if ($document->contractBailRecieved)
