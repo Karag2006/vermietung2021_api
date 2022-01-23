@@ -17,7 +17,7 @@ class ContractController extends Controller
             ->first();
 
         if ($data) {
-            $number = $data->reservationNumber;
+            $number = $data->contractNumber;
             return response()->json($number, Response::HTTP_OK);
         }
         $number = 465382;
