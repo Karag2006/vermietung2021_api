@@ -19,13 +19,13 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['http://escobar-frontend.my-linode-server.de', 'http://localhost', 'http://localhost:8080', 'http://10.40.28.21' ],
 
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => [],
+    'exposed_headers' => ['*'],
 
     'max_age' => 0,
 
