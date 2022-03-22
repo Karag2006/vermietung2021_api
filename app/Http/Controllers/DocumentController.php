@@ -4,10 +4,57 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
+use App\Http\Controllers\OfferController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ContractController;
+use Symfony\Component\HttpFoundation\Response;
 use PDF;
 
 class DocumentController extends Controller
 {
+    public function forwardDocument(Request $request, $id){
+        $document = Document::where("id", $id)->first();
+
+        if ($document->currentState == 'offer') {
+            $data = Document::select('reservationNumber')
+            ->where('currentState', 'reservation')
+            ->orderBy('reservationNumber', 'desc')
+            ->first();
+
+            if ($data) {
+                $highestNumber = $data->reservationNumber;
+            } else {
+                $highestNumber = 265382;
+            }
+
+            // $newReservationNumber = json_decode((new ReservationController)->getHighestNumber()) + 1;
+            $request['reservationNumber'] = $highestNumber + 1;
+            $request['currentState'] = 'reservation';
+            $document->update($request->all());
+        }
+        else if ($document->currentState == 'reservation') {
+            $newContractNumber = (new ContractController)->getHighestNumber() + 1;
+            $request['contractNumber'] = $newContractNumber;
+            $request['currentStatus'] = 'contract';
+            $document->update($request->all());
+        }
+
+        $document = $document->only([
+            'id',
+            'reservationNumber',
+            'collectDate',
+            'returnDate',
+            'customer_name1',
+            'vehicle_title',
+            'vehicle_plateNumber',
+            'selectedEquipmentList'
+        ]);
+
+        return response()->json(
+            $document,
+            Response::HTTP_OK
+        );
+    }
 
     public function downloadPDF($id)
     {

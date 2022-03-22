@@ -35,6 +35,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('reservation/highestNumber', [ReservationController::class, 'getHighestNumber']);
     Route::get('contract/highestNumber', [ContractController::class, 'getHighestNumber']);
     Route::get('document/{id}', [DocumentController::class, 'downloadPDF']);
+    Route::patch('document/{id}', [DocumentController::class, 'forwardDocument']);
 
     // Full CRUD Routes
     Route::apiResource('user', UserController::class);
