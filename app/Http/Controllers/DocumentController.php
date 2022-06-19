@@ -7,13 +7,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ContractController;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
-use PDF;
 
 class DocumentController extends Controller
 {
     public function forwardDocument(Request $request, $id){
         $document = Document::where("id", $id)->first();
+
+        $currentDate = Carbon::now()->isoFormat('YYYY-MM-DD');
 
         if ($document->currentState == 'offer') {
             $data = Document::select('reservationNumber')
@@ -27,15 +30,28 @@ class DocumentController extends Controller
                 $highestNumber = 265382;
             }
 
-            // $newReservationNumber = json_decode((new ReservationController)->getHighestNumber()) + 1;
             $request['reservationNumber'] = $highestNumber + 1;
+            $request['reservationDate'] = $currentDate;
             $request['currentState'] = 'reservation';
             $document->update($request->all());
         }
         else if ($document->currentState == 'reservation') {
-            $newContractNumber = (new ContractController)->getHighestNumber() + 1;
-            $request['contractNumber'] = $newContractNumber;
-            $request['currentStatus'] = 'contract';
+            $data = Document::select('contractNumber')
+            ->where('currentState', 'contract')
+            ->orderBy('contractNumber', 'desc')
+            ->first();
+
+            if ($data) {
+                $highestNumber = $data->contractNumber;
+            } else {
+                $highestNumber = 565382;
+            }
+
+
+
+            $request['contractNumber'] = $highestNumber + 1;
+            $request['contractDate'] = $currentDate;
+            $request['currentState'] = 'contract';
             $document->update($request->all());
         }
 
@@ -87,7 +103,8 @@ class DocumentController extends Controller
             'note' => $note,
         ];
 
-        $pdf = PDF::loadView('DocumentToPDF', $data);
+
+        $pdf = Pdf::loadView('DocumentToPDF', $data);
         $path = 'storage/' . $document->currentState . '/';
         $savePath = public_path($path);
         $fileName = $document->currentState . '-' . $number . '.pdf';
