@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Nav;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class NavController extends Controller
 {
@@ -50,9 +51,31 @@ class NavController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function index2()
     {
-        //
+        $nav = Nav::all();
+        $childrenIds = [];
+        $result = [];
+
+        // replace children ID's with the actual children objects in every entry that has children.
+
+        foreach ($nav as $entry){
+            if (!$entry['isChild']) {
+                array_push($result, $entry);
+            }
+            if ($entry['children']) {
+                $thisParentChildrenIds = explode(";", $entry['children']);
+                $thisParentChildren = [];
+                foreach ($thisParentChildrenIds as $value) {
+                    $intValue = (int)$value;
+                    array_push($childrenIds, $intValue);
+                    array_push($thisParentChildren, Nav::where('id', $intValue)->first());
+                }
+                $entry['children'] = $thisParentChildren;
+            }
+        }
+
+        return response()->json($result, Response::HTTP_OK);
     }
 
     /**

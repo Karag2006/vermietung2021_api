@@ -1,9 +1,11 @@
 <?php
+
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-class TrailerSeeder extends Seeder
+
+class OldDBSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +14,8 @@ class TrailerSeeder extends Seeder
      */
     public function run()
     {
-
+        $this->call([
+            OldTrailerSeeder::class,
+        ]);
     }
 }

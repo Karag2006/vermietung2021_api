@@ -29,7 +29,7 @@ Route::post('login', [UserController::class, 'authenticate']);
 
 Route::group(['middleware' => ['jwt.verify']], function () {
     // Single Function Routes
-    Route::get('nav', [NavController::class, 'index']);
+    Route::get('nav', [NavController::class, 'index2']);
     Route::patch('pwChange', [UserController::class, 'changePassword']);
     Route::get('offer/highestNumber', [OfferController::class, 'getHighestNumber']);
     Route::get('reservation/highestNumber', [ReservationController::class, 'getHighestNumber']);

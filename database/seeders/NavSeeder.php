@@ -57,12 +57,14 @@ class NavSeeder extends Seeder
                 'name'              => 'Rollen',
                 'icon'              => 'fas fa-user-tag',
                 'link'              => '/roles',
+                'isChild'           => true
             ],
             [
                 'id'                => 8,
                 'name'              => 'Benutzer',
                 'icon'              => 'fas fa-users-cog',
                 'link'              => '/users',
+                'isChild'           => true
             ],
             [
                 'id'                => 9,
@@ -75,12 +77,14 @@ class NavSeeder extends Seeder
                 'name'              => 'Anhänger',
                 'icon'              => 'fas fa-trailer',
                 'link'              => '/trailers',
+                'isChild'           => true
             ],
             [
                 'id'                => 11,
                 'name'              => 'Zubehör',
                 'icon'              => 'fas fa-sitemap',
                 'link'              => '/equipment',
+                'isChild'           => true
             ],
             [
                 'id'                => 12,

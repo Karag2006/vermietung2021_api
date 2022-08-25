@@ -51,6 +51,7 @@ class DocumentController extends Controller
 
             $request['contractNumber'] = $highestNumber + 1;
             $request['contractDate'] = $currentDate;
+            $request['reservationDepositDate'] = $currentDate;
             $request['currentState'] = 'contract';
             $document->update($request->all());
         }
