@@ -32,9 +32,9 @@ class TrailerController extends Controller
             'title'                 =>  'nullable|string|min:8|max:50',
             'plateNumber'           =>  'required|string|max:13',
             'chassisNumber'         =>  'nullable|string|max:50',
-            'totalWeight'           =>  'nullable|string|min:6|max:7',
-            'usableWeight'          =>  'nullable|string|min:6|max:7',
-            'loadingSize'           =>  'nullable|string|min:6|max:20',
+            'totalWeight'           =>  'nullable|string|min:3|max:4',
+            'usableWeight'          =>  'nullable|string|min:3|max:4',
+            'loadingSize'           =>  'nullable|string|min:7|max:20',
             'tuev'                  =>  'nullable',
             'comment'               =>  'nullable|string|max:1000'
         ]);
@@ -94,9 +94,9 @@ class TrailerController extends Controller
             'title'                 =>  'nullable|string|min:8|max:50',
             'plateNumber'           =>  'required|string|max:13',
             'chassisNumber'         =>  'nullable|string|max:50',
-            'totalWeight'           =>  'nullable|string|min:6|max:7',
-            'usableWeight'          =>  'nullable|string|min:6|max:7',
-            'loadingSize'           =>  'nullable|string|min:6|max:20',
+            'totalWeight'           =>  'nullable|string|min:3|max:4',
+            'usableWeight'          =>  'nullable|string|min:3|max:4',
+            'loadingSize'           =>  'nullable|string|min:7|max:20',
             'tuev'                  =>  'nullable',
             'comment'               =>  'nullable|string|max:1000'
         ]);
