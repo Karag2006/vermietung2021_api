@@ -34,10 +34,13 @@ class trailer extends Model
 
     public function getTuevAttribute($value)
     {
-        return $value ? Carbon::parse($value)->format(config('custom.date_format')) : null;
+        return $value ? Carbon::parse($value)->format(config('custom.tuev_format')) : null;
     }
     public function setTuevAttribute($value)
     {
-        $this->attributes['tuev'] = $value ? Carbon::createFromFormat(config('custom.date_format'), $value)->format('Y-m-d') : null;
+        if ($value) {
+            $array = explode("/", $value);
+            $this->attributes['tuev'] = $array[1] + 2000 . "-" . $array[0] . "-01";
+        }
     }
 }
