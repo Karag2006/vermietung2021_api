@@ -17,7 +17,8 @@ class OldDBSeeder extends Seeder
         $this->call([
             OldTrailerSeeder::class,
             OldCustomerSeeder::class,
-            OldSettingsSeeder::class,
+            // OldSettingsSeeder::class,
+            OldUserSeeder::class,
         ]);
     }
 }
