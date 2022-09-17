@@ -39,6 +39,7 @@ class OldOfferSeeder extends Seeder
                 'contractBailReturned' => false,
                 'comment' => $oldEntry->comment,
                 'user_id' => $oldEntry->user_id,
+                'collect_address_id' => $this->getCollectAddressIdFromName($oldEntry->pick_up_address),
                 'selectedEquipmentList' => '[]',
             ];
             if ($oldEntry->customer_id) {
@@ -126,5 +127,11 @@ class OldOfferSeeder extends Seeder
             return 'EC-Karte';
         }
         return 'Bar';
+    }
+
+    private function getCollectAddressIdFromName($name){
+        if($name == "horhausen_westerwald") return 1;
+        if($name == "hennef_sieg") return 2;
+        if($name == "hennef_knipp") return 3;
     }
 }

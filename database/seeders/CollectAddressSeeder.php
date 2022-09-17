@@ -16,12 +16,16 @@ class CollectAddressSeeder extends Seeder
     {
         $addresses = [
             [
+                'name'              => 'Horhausen',
+                'address'           => 'Industriepark 13 - 56593 Horhausen',
+            ],
+            [
                 'name'              => 'Hennef',
                 'address'           => 'Reisertstraße 9 - 53773 Hennef/Sieg',
             ],
             [
-                'name'              => 'Horhausen',
-                'address'           => 'Industriepark 13 - 56593 Horhausen',
+                'name'              => 'Knipp',
+                'address'           => 'Meysstraße 8 - 53773 Hennef/Sieg',
             ],
         ];
         foreach ($addresses as $address) {

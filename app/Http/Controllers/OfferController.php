@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OfferController extends Controller
 {
-
     public function getHighestNumber(){
         $number = Document::select('offerNumber')
             ->where('currentState', 'offer')
@@ -31,7 +30,8 @@ class OfferController extends Controller
      */
     public function index()
     {
-        $offerList = Document::select('id', 'offerNumber', 'collectDate', 'returnDate', 'customer_name1', 'vehicle_title', 'vehicle_plateNumber')
+        $offerList = Document::with('collectAddress:id,name')
+            ->select('id', 'offerNumber', 'collectDate', 'returnDate', 'customer_name1', 'vehicle_title', 'vehicle_plateNumber', 'collect_address_id')
             ->where('currentState', 'offer')
             ->orderBy('offerNumber', 'desc')
             ->get();
