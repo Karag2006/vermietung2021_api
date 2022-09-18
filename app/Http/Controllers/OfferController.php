@@ -6,6 +6,7 @@ use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Carbon;
 
 class OfferController extends Controller
 {
@@ -31,9 +32,9 @@ class OfferController extends Controller
     public function index()
     {
         $offerList = Document::with('collectAddress:id,name')
-            ->select('id', 'offerNumber', 'collectDate', 'returnDate', 'customer_name1', 'vehicle_title', 'vehicle_plateNumber', 'collect_address_id')
-            ->where('currentState', 'offer')
-            ->orderBy('offerNumber', 'desc')
+            ->select('id', 'offer_number', 'collect_date', 'return_date', 'customer_name1', 'vehicle_title', 'vehicle_plateNumber', 'collect_address_id')
+            ->where('current_state', 'offer')
+            ->orderBy('offer_number', 'desc')
             ->get();
         return response()->json($offerList, Response::HTTP_OK);
     }
@@ -56,9 +57,9 @@ class OfferController extends Controller
         $offer["selectedEquipmentList"] = json_decode($offer["selectedEquipmentList"]);
         $offer = $offer->only([
             'id',
-            'offerNumber',
-            'collectDate',
-            'returnDate',
+            'offer_number',
+            'collect_date',
+            'return_date',
             'customer_name1',
             'vehicle_title',
             'vehicle_plateNumber',
@@ -104,9 +105,9 @@ class OfferController extends Controller
 
         $document = $document->only([
             'id',
-            'offerNumber',
-            'collectDate',
-            'returnDate',
+            'offer_number',
+            'collect_date',
+            'return_date',
             'customer_name1',
             'vehicle_title',
             'vehicle_plateNumber',
