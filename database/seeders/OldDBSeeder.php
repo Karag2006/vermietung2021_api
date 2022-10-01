@@ -20,6 +20,8 @@ class OldDBSeeder extends Seeder
             OldSettingsSeeder::class,
             OldUserSeeder::class,
             OldOfferSeeder::class,
+            OldReservationSeeder::class,
+            OldContractSeeder::class,
         ]);
     }
 }

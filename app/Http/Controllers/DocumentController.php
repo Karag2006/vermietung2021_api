@@ -4,63 +4,54 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
-use App\Http\Controllers\OfferController;
-use App\Http\Controllers\ReservationController;
-use App\Http\Controllers\ContractController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 
 class DocumentController extends Controller
 {
+    private function getNextNumber($type, $default){
+        $propertyName = $type."_number";
+        $document = Document::select($propertyName)
+            ->orderByRaw("CASE WHEN ".$propertyName." IS NULL THEN 0 ELSE 1 END DESC")
+            ->orderBy($propertyName, 'desc')
+            ->first();
+        if($document) {
+            return max(($document->{$propertyName} + 1), $default);
+        }
+        return $default;
+    }
+
     public function forwardDocument(Request $request, $id){
         $document = Document::where("id", $id)->first();
 
-        $currentDate = Carbon::now()->isoFormat('YYYY-MM-DD');
-
-        if ($document->currentState == 'offer') {
-            $data = Document::select('reservationNumber')
-            ->where('currentState', 'reservation')
-            ->orderBy('reservationNumber', 'desc')
-            ->first();
-
-            if ($data) {
-                $highestNumber = $data->reservationNumber;
-            } else {
-                $highestNumber = 265382;
-            }
-
-            $request['reservationNumber'] = $highestNumber + 1;
-            $request['reservationDate'] = $currentDate;
-            $request['currentState'] = 'reservation';
-            $document->update($request->all());
+        $currentDate = Carbon::today()->format('d.m.Y');
+        $nextDocumentType = "";
+        if ($document->current_state == 'offer') {
+            $nextDocumentType = 'reservation';
+            $nextDocumentDefaultNumber = 1;
         }
-        else if ($document->currentState == 'reservation') {
-            $data = Document::select('contractNumber')
-            ->where('currentState', 'contract')
-            ->orderBy('contractNumber', 'desc')
-            ->first();
-
-            if ($data) {
-                $highestNumber = $data->contractNumber;
-            } else {
-                $highestNumber = 565382;
-            }
-
-
-
-            $request['contractNumber'] = $highestNumber + 1;
-            $request['contractDate'] = $currentDate;
-            $request['reservationDepositDate'] = $currentDate;
-            $request['currentState'] = 'contract';
-            $document->update($request->all());
+        else {
+            $nextDocumentType = 'contract';
+            $nextDocumentDefaultNumber = 1;
         }
+
+        // TODO: Create option to define a default Value for each Document Number in the options Table.
+
+        $newNumber = $this->getNextNumber($nextDocumentType, $nextDocumentDefaultNumber);
+
+        $request[$nextDocumentType.'_number'] = $newNumber;
+        $request[$nextDocumentType.'_date'] = $currentDate;
+        $request['current_state'] = $nextDocumentType;
+        $document->update($request->all());
 
         $document = $document->only([
             'id',
-            'reservationNumber',
-            'collectDate',
-            'returnDate',
+            'reservation_number',
+            'contract_number',
+            'current_state',
+            'collect_date',
+            'return_date',
             'customer_name1',
             'vehicle_title',
             'vehicle_plateNumber',

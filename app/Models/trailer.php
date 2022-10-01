@@ -10,6 +10,12 @@ class trailer extends Model
 {
     use HasFactory;
 
+    protected $appends = ['selector'];
+
+    public function getSelectorAttribute(){
+        return $this->plateNumber . ' - ' . $this->title;
+    }
+
     public function Documents()
     {
         return $this->hasMany(Document::class, 'vehicle_id');

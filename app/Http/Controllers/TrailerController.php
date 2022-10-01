@@ -135,4 +135,14 @@ class TrailerController extends Controller
         // include the id in the Response, so the Frontend can update its list.
         return response()->json($id, Response::HTTP_OK);
     }
+
+    public function getTuev(trailer $trailer)
+    {
+        $trailer = $trailer->only([
+            'id',
+            'tuev',
+        ]);
+
+        return response()->json($trailer, Response::HTTP_OK);
+    }
 }

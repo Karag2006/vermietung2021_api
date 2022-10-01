@@ -36,6 +36,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('contract/highestNumber', [ContractController::class, 'getHighestNumber']);
     Route::get('document/{id}', [DocumentController::class, 'downloadPDF']);
     Route::patch('document/{id}', [DocumentController::class, 'forwardDocument']);
+    Route::get('trailer/tuev/{trailer}', [TrailerController::class, 'getTuev']);
 
     // Full CRUD Routes
     Route::apiResource('user', UserController::class);

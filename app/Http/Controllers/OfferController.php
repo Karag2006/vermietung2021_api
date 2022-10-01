@@ -6,22 +6,25 @@ use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 class OfferController extends Controller
 {
-    public function getHighestNumber(){
-        $number = Document::select('offerNumber')
-            ->where('currentState', 'offer')
-            ->orderBy('offerNumber', 'desc')
-            ->first();
-
-        if ($number) {
-            $number = $number->offerNumber;
-            return response()->json($number, Response::HTTP_OK);
-        }
+    private function getNextNumber(){
         $number = 26538;
-        return response()->json($number, Response::HTTP_OK);
+        $document = Document::select('offer_number')
+            ->where('current_state', 'offer')
+            ->orderBy('offer_number', 'desc')
+            ->first();
+        if($document) {
+            $number = $document->offer_number + 1;
+        }
+        return $number;
+    }
+
+    public function getHighestNumber(){
+
+
     }
 
     /**
@@ -47,7 +50,12 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
+        $today = Carbon::today()->format('d.m.Y');
         $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
+
+        $request['offer_number'] = $this->getNextNumber();
+        $request['current_state'] = "offer";
+        $request['offer_date'] = $today;
 
         $offer = Document::create($request->all());
 
@@ -137,4 +145,6 @@ class OfferController extends Controller
         // include the id in the Response, so the Frontend can update its list.
         return response()->json($id, Response::HTTP_OK);
     }
+
+
 }

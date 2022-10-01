@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class OldOfferSeeder extends Seeder
+class OldContractSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,12 +14,12 @@ class OldOfferSeeder extends Seeder
      */
     public function run()
     {
-        $oldData = DB::connection('mysql_old')->table('offers')->get();
+        $oldData = DB::connection('mysql_old')->table('contracts')->get();
         foreach ($oldData as $oldEntry){
             $newEntry = [
-                'offer_number' => $oldEntry->id,
-                'offer_date' => $this->trimDate($oldEntry->updated_at),
-                'current_state' => 'offer',
+                'contract_number' => $oldEntry->id,
+                'contract_date' => $this->trimDate($oldEntry->updated_at),
+                'current_state' => 'contract',
                 'collect_date' => $oldEntry->pick_up_date,
                 'return_date' => $oldEntry->return_date,
                 'collect_time' => $this->cleanupTime($oldEntry->pick_up_time),

@@ -6,67 +6,61 @@ use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Carbon\Carbon;
 
 class ContractController extends Controller
 {
 
-    public function getHighestNumber(){
-        $data = Document::select('contractNumber')
-            ->where('currentState', 'contract')
-            ->orderBy('contractNumber', 'desc')
-            ->first();
-
-        if ($data) {
-            $number = $data->contractNumber;
-            return response()->json($number, Response::HTTP_OK);
-        }
+    private function getNextNumber(){
         $number = 465382;
-        return response()->json($number, Response::HTTP_OK);
+        $document = Document::select('contract_number')
+            ->where('current_state', 'contract')
+            ->orderBy('contract_number', 'desc')
+            ->first();
+        if($document) {
+            $number = $document->contract_number + 1;
+        }
+        return $number;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function getHighestNumber(){
+
+        return response()->json($this->getNextNumber(), Response::HTTP_OK);
+    }
+
     public function index()
     {
-        $contractList = Document::select('id', 'contractNumber', 'collectDate', 'returnDate', 'customer_name1', 'vehicle_title', 'vehicle_plateNumber')
-            ->where('currentState', 'contract')
-            ->orderBy('contractNumber', 'desc')
+        $contractList = Document::with('collectAddress:id,name')
+            ->select('id', 'contract_number', 'collect_date', 'return_date', 'customer_name1', 'vehicle_title', 'vehicle_plateNumber', 'collect_address_id')
+            ->where('current_state', 'contract')
+            ->orderBy('contract_number', 'desc')
             ->get();
         return response()->json($contractList, Response::HTTP_OK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+        $today = Carbon::today()->format('d.m.Y');
         $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
+
+        $request['contract_number'] = $this->getNextNumber();
+        $request['current_state'] = "contract";
+        $request['contract_date'] = $today;
 
         $contract = Document::create($request->all());
 
-        // for the Response limit the elements of the newly created Customer
-        // to those that are also transfered in the Ressource List.
-
         $contract["selectedEquipmentList"] = json_decode($contract["selectedEquipmentList"]);
-        $contract = $contract->only([
+        $contract = $contract->with('collectAddress:id,name')->only([
             'id',
-            'contractNumber',
-            'collectDate',
-            'returnDate',
+            'contract_number',
+            'collect_date',
+            'return_date',
             'customer_name1',
             'vehicle_title',
             'vehicle_plateNumber',
-            'selectedEquipmentList'
+            'selectedEquipmentList',
+            'collect_address_id'
         ]);
-
-        // Return the shortened entry of the new Customer to the Frontend,
-        // so the Frontend can update its own List, with the Validated Data
         return response()->json($contract, Response::HTTP_CREATED);
     }
 
@@ -104,9 +98,9 @@ class ContractController extends Controller
 
         $document = $document->only([
             'id',
-            'contractNumber',
-            'collectDate',
-            'returnDate',
+            'contract_number',
+            'collect_date',
+            'return_date',
             'customer_name1',
             'vehicle_title',
             'vehicle_plateNumber',

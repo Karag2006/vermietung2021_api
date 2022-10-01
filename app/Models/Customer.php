@@ -22,6 +22,12 @@ class Customer extends Model
         return $this->hasMany(Document::class, 'driver_id');
     }
 
+    protected $appends = ['selector'];
+
+    public function getSelectorAttribute(){
+        return $this->name1 . ' - ' . $this->name2;
+    }
+
     protected $dates = [
         'birth_date',
         'created_at',

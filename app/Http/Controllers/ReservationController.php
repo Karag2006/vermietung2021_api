@@ -6,22 +6,26 @@ use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
 
-    public function getHighestNumber(){
-        $data = Document::select('reservationNumber')
-            ->where('currentState', 'reservation')
-            ->orderBy('reservationNumber', 'desc')
-            ->first();
-
-        if ($data) {
-            $number = $data->reservationNumber;
-            return response()->json($number, Response::HTTP_OK);
-        }
+    private function getNextNumber(){
         $number = 265382;
-        return response()->json($number, Response::HTTP_OK);
+        $document = Document::select('reservation_number')
+            ->where('current_state', 'reservation')
+            ->orderBy('reservation_number', 'desc')
+            ->first();
+        if($document) {
+            $number = $document->reservation_number + 1;
+        }
+        return $number;
+    }
+
+    public function getHighestNumber(){
+
+        return response()->json($this->getNextNumber(), Response::HTTP_OK);
     }
 
     /**
@@ -31,9 +35,10 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservationList = Document::select('id', 'reservationNumber', 'collectDate', 'returnDate', 'customer_name1', 'vehicle_title', 'vehicle_plateNumber')
-            ->where('currentState', 'reservation')
-            ->orderBy('reservationNumber', 'desc')
+        $reservationList = Document::with('collectAddress:id,name')
+            ->select('id', 'reservation_number', 'collect_date', 'return_date', 'customer_name1', 'vehicle_title', 'vehicle_plateNumber', 'collect_address_id')
+            ->where('current_state', 'reservation')
+            ->orderBy('reservation_number', 'desc')
             ->get();
         return response()->json($reservationList, Response::HTTP_OK);
     }
@@ -46,19 +51,21 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
+        $today = Carbon::today()->format('d.m.Y');
         $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
 
-        $reservation = Document::create($request->all());
+        $request['reservation_number'] = $this->getNextNumber();
+        $request['current_state'] = "reservation";
+        $request['reservation_date'] = $today;
 
-        // for the Response limit the elements of the newly created Customer
-        // to those that are also transfered in the Ressource List.
+        $reservation = Document::create($request->all());
 
         $reservation["selectedEquipmentList"] = json_decode($reservation["selectedEquipmentList"]);
         $reservation = $reservation->only([
             'id',
-            'reservationNumber',
-            'collectDate',
-            'returnDate',
+            'reservation_number',
+            'collect_date',
+            'return_date',
             'customer_name1',
             'vehicle_title',
             'vehicle_plateNumber',
@@ -104,9 +111,9 @@ class ReservationController extends Controller
 
         $document = $document->only([
             'id',
-            'reservationNumber',
-            'collectDate',
-            'returnDate',
+            'reservation_number',
+            'collect_date',
+            'return_date',
             'customer_name1',
             'vehicle_title',
             'vehicle_plateNumber',
