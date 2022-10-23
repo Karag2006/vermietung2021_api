@@ -18,14 +18,18 @@ class OldUserSeeder extends Seeder
         $oldData = DB::connection('mysql_old')->table('users')->get();
         foreach ($oldData as $oldEntry){
 
-            $newEntry = [
-                'id' => $oldEntry->id,
-                'name' => $oldEntry->name,
-                'username' => $oldEntry->username,
-                'email' => $oldEntry->email,
-                'password' => $oldEntry->password,
-            ];
-            DB::connection('mysql')->table('users')->insert($newEntry);
+            if(isset($oldEntry->username) && $oldEntry->username != 'admin')
+            {
+
+                $newEntry = [
+                    'id' => $oldEntry->id,
+                    'name' => $oldEntry->name,
+                    'username' => $oldEntry->username,
+                    'email' => $oldEntry->email,
+                    'password' => $oldEntry->password,
+                ];
+                DB::connection('mysql')->table('users')->insert($newEntry);
+            }
         }
     }
 }
