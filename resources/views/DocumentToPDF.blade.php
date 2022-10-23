@@ -10,7 +10,7 @@
             @include('PDFComponents.CustomerData')
             @include('PDFComponents.DriverData')
         </table>
-        @if ($document->currentState == "contract")
+        @if ($document->current_state == "contract")
             @include('PDFComponents.PersonalInfo')
         @endif
         {{--  End Customer section--}}
@@ -21,13 +21,12 @@
             @include('PDFComponents.VehicleInfo')
             @include('PDFComponents.mainTableSpacer')
 
-            @if ($document->selectedEquipmentList)
+            @if ($document->selectedEquipmentList != "[]")
                 @include('PDFComponents.selectedEquipment')
                 @include('PDFComponents.mainTableSpacer')
             @endif
 
             @if ($document->comment)
-            {{-- TODO: add Comment to the documents --}}
                 @include('PDFComponents.comment')
                 @include('PDFComponents.mainTableSpacer')
             @endif
@@ -46,7 +45,7 @@
 
         @include('PDFComponents.CollectAdress')
 
-        @if ($document->currentState == 'contract')
+        @if ($document->current_state == 'contract')
             @include('PDFComponents.Signature')
         @endif
 

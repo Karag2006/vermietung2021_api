@@ -90,7 +90,7 @@ class OldContractSeeder extends Seeder
                     'vehicle_chassisNumber' => $trailer->chassisNumber,
                     'vehicle_totalWeight' => $trailer->totalWeight,
                     'vehicle_usableWeight' => $trailer->usableWeight,
-                    'vehicle_loadingSize' => $trailer->loadingSize,
+                    'vehicle_loading_size' => $trailer->loading_size,
                     'vehicle_comment' => $trailer->comment,
                 ]);
             }

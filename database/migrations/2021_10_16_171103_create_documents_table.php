@@ -91,7 +91,7 @@ class CreateDocumentsTable extends Migration
             $table->string('vehicle_chassisNumber')->nullable();
             $table->string('vehicle_totalWeight')->nullable();
             $table->string('vehicle_usableWeight')->nullable();
-            $table->string('vehicle_loadingSize')->nullable();
+            $table->string('vehicle_loading_size')->nullable();
             $table->longText('vehicle_comment')->nullable();
 
             // Settings

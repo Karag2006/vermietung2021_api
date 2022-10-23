@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
+use App\Http\Requests\ReservationRequest;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Models\User;
 
 class ReservationController extends Controller
 {
@@ -49,8 +52,14 @@ class ReservationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ReservationRequest $request)
     {
+        $token = JWTAuth::getToken();
+        $username = JWTAuth::getPayload($token)->toArray()["username"];
+        $user = User::where('username', $username)->first();
+
+        $request['user_id'] = $user->id;
+
         $today = Carbon::today()->format('d.m.Y');
         $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
 
@@ -100,9 +109,13 @@ class ReservationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ReservationRequest $request, $id)
     {
-        // Validate Input
+        $token = JWTAuth::getToken();
+        $username = JWTAuth::getPayload($token)->toArray()["username"];
+        $user = User::where('username', $username)->first();
+
+        $request['user_id'] = $user->id;
 
         // Get Document with the id of $id
         $document = Document::where("id", $id)->first();

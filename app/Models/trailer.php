@@ -33,10 +33,31 @@ class trailer extends Model
         'chassisNumber',
         'totalWeight',
         'usableWeight',
-        'loadingSize',
+        'loading_size',
         'tuev',
         'comment'
     ];
+
+    public function getLoadingSizeAttribute($value){
+        if($value){
+            $temp = explode("x", $value);
+            $length = intval(trim($temp[0]));
+            $width = intval(trim($temp[1]));
+            $height = isset($temp[2]) ? intval(trim($temp[2])) : 0;
+
+            if($height > 0)
+                return array($length, $width, $height);
+
+            return array($length, $width);
+        }
+
+        return 0;
+
+    }
+
+    public function setLoadingSizeAttribute($value){
+        $this->attributes['loading_size'] = implode(" x ", $value);
+    }
 
     public function getTuevAttribute($value)
     {

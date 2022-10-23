@@ -7,7 +7,7 @@
     </tr>
     <tr>
         <td class="td-info text-left txt-bold">{{ $document->customer_pass_number ?? $document->driver_pass_number}}</td>
-        <td class="td-info text-left txt-bold">{{ $document->customer_birth_date ? $document->customer_birth_date->format('d.m.Y') : $document->driver_birth_date->format('d.m.Y') }}</td>
+        <td class="td-info text-left txt-bold">{{ $document->customer_birth_date ? $document->customer_birth_date : $document->driver_birth_date }}</td>
         <td class="td-info text-left txt-bold">{{ $document->customer_birth_city ?? $document->driver_birth_city}}</td>
         <td class="td-info text-left txt-bold">{{ $document->customer_car_number ?? ($document->driver_car_number ?? '')}}</td>
     </tr>

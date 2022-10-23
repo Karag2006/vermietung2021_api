@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TrailerRequest;
 use App\Models\trailer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ class TrailerController extends Controller
      */
     public function index()
     {
-        $trailerList = trailer::select('id', 'title', 'plateNumber', 'totalWeight', 'loadingSize', 'tuev')->orderBy('plateNumber')->get();
+        $trailerList = trailer::select('id', 'title', 'plateNumber', 'totalWeight', 'loading_size', 'tuev')->orderBy('plateNumber')->get();
         return response()->json($trailerList, Response::HTTP_OK);
     }
 
@@ -25,30 +26,16 @@ class TrailerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TrailerRequest $request)
     {
-        // Validate the Input
-        $this->validate($request, [
-            'title'                 =>  'nullable|string|min:8|max:50',
-            'plateNumber'           =>  'required|string|max:13',
-            'chassisNumber'         =>  'nullable|string|max:50',
-            'totalWeight'           =>  'nullable|string|min:3|max:4',
-            'usableWeight'          =>  'nullable|string|min:3|max:4',
-            'loadingSize'           =>  'nullable|string|min:7|max:20',
-            'tuev'                  =>  'nullable',
-            'comment'               =>  'nullable|string|max:1000'
-        ]);
-
         $trailer = trailer::create($request->all());
 
-        // for the Response limit the elements of the newly created trailer
-        // to those that are also transfered in the Ressource List.
         $trailer = $trailer->only([
             'id',
             'title',
             'plateNumber',
             'totalWeight',
-            'loadingSize',
+            'loading_size',
             'tuev'
         ]);
 
@@ -72,7 +59,7 @@ class TrailerController extends Controller
             'chassisNumber',
             'totalWeight',
             'usableWeight',
-            'loadingSize',
+            'loading_size',
             'tuev',
             'comment'
         ]);
@@ -87,35 +74,19 @@ class TrailerController extends Controller
      * @param  \App\Models\trailer  $trailer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, trailer $trailer)
+    public function update(TrailerRequest $request, trailer $trailer)
     {
-        // Validate the Input
-        $this->validate($request, [
-            'title'                 =>  'nullable|string|min:8|max:50',
-            'plateNumber'           =>  'required|string|max:13',
-            'chassisNumber'         =>  'nullable|string|max:50',
-            'totalWeight'           =>  'nullable|string|min:3|max:4',
-            'usableWeight'          =>  'nullable|string|min:3|max:4',
-            'loadingSize'           =>  'nullable|string|min:7|max:20',
-            'tuev'                  =>  'nullable',
-            'comment'               =>  'nullable|string|max:1000'
-        ]);
 
         $trailer->update($request->all());
 
-        // for the Response limit the elements of the newly created trailer
-        // to those that are also transfered in the Ressource List.
         $trailer = $trailer->only([
             'id',
             'title',
             'plateNumber',
             'totalWeight',
-            'loadingSize',
+            'loading_size',
             'tuev'
         ]);
-
-        // Return the shortened entry of the new trailer to the Frontend,
-        // so the Frontend can update its own List, with the Validated Data
         return response()->json($trailer, Response::HTTP_OK);
     }
 

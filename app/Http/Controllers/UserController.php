@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -124,24 +125,29 @@ class UserController extends Controller
         if (Hash::check($request['oldPassword'], $user->password)){
             $user->password = Hash::make($request['newPassword']);
             $user->save();
-            return response()->json(true, Response::HTTP_OK);
+            return response()->json($user->only(['id', 'username']), Response::HTTP_OK);
         }
 
-        return response()->json(false, Response::HTTP_BAD_REQUEST);
+        return response()->json(false, Response::HTTP_FORBIDDEN);
 
 
     }
 
     public function authenticate(Request $request)
     {
-        $credentials = $request->only('username', 'password');
+        $this->validate($request, [
+            'username'   =>  'required',
+            'password'   =>  'required'
+        ]);
 
+        $credentials = $request->only('username', 'password');
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 400);
+                return response()->json(
+                    ['errors' => ['username' => 'Benutzer / Passwort kombination ist falsch']], Response::HTTP_BAD_REQUEST);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return response()->json(['errors' => ['username' => 'Server Fehler : Token konnte nicht erzeugt werden']], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return response()->json(compact('token'));
@@ -152,17 +158,17 @@ class UserController extends Controller
         try {
 
             if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
+                return response()->json(['user_not_found'], Response::HTTP_NOT_FOUND);
             }
-        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+        } catch (TokenExpiredException $e) {
 
-            return response()->json(['token_expired'], $e->getStatusCode());
-        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response()->json(['token_expired'], Response::HTTP_UNAUTHORIZED);
+        } catch (TokenInvalidException $e) {
 
-            return response()->json(['token_invalid'], $e->getStatusCode());
-        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+            return response()->json(['token_invalid'], Response::HTTP_UNAUTHORIZED);
+        } catch (JWTException $e) {
 
-            return response()->json(['token_absent'], $e->getStatusCode());
+            return response()->json(['token_absent'], Response::HTTP_UNAUTHORIZED);
         }
 
         return response()->json(compact('user'));

@@ -25,7 +25,7 @@ class OldTrailerSeeder extends Seeder
                 'chassisNumber' => $oldEntry->fahrzeugidentnummer,
                 'totalWeight' => $this->cleanupWeights($oldEntry->gesamtgewicht),
                 'usableWeight' => $this->cleanupWeights($oldEntry->nutzlast),
-                'loadingSize' => $this->cleanupSize($oldEntry->lademasse),
+                'loading_size' => $this->cleanupSize($oldEntry->lademasse),
                 'tuev' => $oldEntry->license_expiration_date,
                 'comment' => $oldEntry->comment
             ];

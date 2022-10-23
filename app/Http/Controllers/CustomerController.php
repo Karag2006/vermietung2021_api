@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CustomerRequest;
 use Symfony\Component\HttpFoundation\Response;
 //use Illuminate\Support\Facades\Gate;
 
@@ -33,25 +34,8 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CustomerRequest $request)
     {
-            // Validate the Input
-            $this->validate($request, [
-                'pass_number'           =>  'nullable|string|min:8|max:30',
-                'name1'                 =>  'required|string|max:50',
-                'name2'                 =>  'nullable|string|max:50',
-                'street'                =>  'nullable|string|min:3|max:50',
-                'plz'                   =>  'nullable|digits_between:4,5',
-                'city'                  =>  'nullable|string|min:3|max:50',
-                'birth_date'            =>  'nullable|date_format:d.m.Y',
-                'birth_city'            =>  'nullable|string|min:3|max:50',
-                'phone'                 =>  'nullable|string|min:6|max:15',
-                'car_number'            =>  'nullable|string|min:5|max:20',
-                'email'                 =>  'nullable|email',
-                'driving_license_no'    =>  'nullable|string|min:6|max:15',
-                'driving_license_class' =>  'nullable|string|max:9',
-                'comment'               =>  'nullable|string|max:1000'
-            ]);
 
             $customer = Customer::create($request->all());
 
@@ -79,9 +63,6 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        // if (Gate::allows("view", Customer::class)) {
-        //    return $customer;
-        // }
         $customer = $customer->only([
                 'id',
                 'pass_number',
@@ -109,28 +90,8 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(CustomerRequest $request, Customer $customer)
     {
-
-
-        // Validate Input
-        $this->validate($request, [
-                'pass_number'           =>  'nullable|string|min:8|max:30',
-                'name1'                 =>  'required|string|max:50',
-                'name2'                 =>  'nullable|string|max:50',
-                'street'                =>  'nullable|string|min:3|max:50',
-                'plz'                   =>  'nullable|digits_between:4,5',
-                'city'                  =>  'nullable|string|min:3|max:50',
-                'birth_date'            =>  'nullable|date_format:d.m.Y',
-                'birth_city'            =>  'nullable|string|min:3|max:50',
-                'phone'                 =>  'nullable|string|min:6|max:15',
-                'car_number'            =>  'nullable|string|min:5|max:20',
-                'email'                 =>  'nullable|email',
-                'driving_license_no'    =>  'nullable|string|min:6|max:15',
-                'driving_license_class' =>  'nullable|string|max:9',
-                'comment'               =>  'nullable|string|max:1000'
-        ]);
-
         $customer->update($request->all());
 
         $customer = $customer->only([

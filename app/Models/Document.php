@@ -83,6 +83,7 @@ class Document extends Model
         'customer_email',
         'customer_driving_license_no',
         'customer_driving_license_class',
+        'customer_comment',
 
 
         // Driver Values
@@ -100,6 +101,7 @@ class Document extends Model
         'driver_email',
         'driver_driving_license_no',
         'driver_driving_license_class',
+        'driver_comment',
 
 
         // Vehicle Values
@@ -109,7 +111,8 @@ class Document extends Model
         'vehicle_chassisNumber',
         'vehicle_totalWeight',
         'vehicle_usableWeight',
-        'vehicle_loadingSize',
+        'vehicle_loading_size',
+        'vehicle_comment',
 
 
         // Settings
@@ -140,6 +143,22 @@ class Document extends Model
         'customer_birth_date',
         'driver_birth_date',
     ];
+
+    public function getVehicleLoadingSizeAttribute($value){
+        $temp = explode("x", $value);
+        $length = intval(trim($temp[0]));
+        $width = intval(trim($temp[1]));
+        $height = isset($temp[2]) ? intval(trim($temp[2])) : 0;
+
+        if($height > 0)
+            return array($length, $width, $height);
+
+        return array($length, $width);
+    }
+
+    public function setVehicleLoadingSizeAttribute($value){
+        $this->attributes['vehicle_loading_size'] = implode(" x ", $value);
+    }
 
     public function getOfferDateAttribute($value)
     {
@@ -175,6 +194,24 @@ class Document extends Model
     public function setCollectDateAttribute($value)
     {
         $this->attributes['collect_date'] = $value ? Carbon::createFromFormat(config('custom.date_format'), $value)->format('Y-m-d') : null;
+    }
+
+    public function getCollectTimeAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format(config('custom.time_format')) : null;
+    }
+    public function setCollectTimeAttribute($value)
+    {
+        $this->attributes['collect_time'] = $value ? Carbon::createFromFormat(config('custom.time_format'), $value)->format('H:i') : null;
+    }
+
+    public function getReturnTimeAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format(config('custom.time_format')) : null;
+    }
+    public function setReturnTimeAttribute($value)
+    {
+        $this->attributes['return_time'] = $value ? Carbon::createFromFormat(config('custom.time_format'), $value)->format('H:i') : null;
     }
 
     public function getReturnDateAttribute($value)

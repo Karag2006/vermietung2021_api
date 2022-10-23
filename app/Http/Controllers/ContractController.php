@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreContractRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ContractController extends Controller
 {
@@ -38,8 +42,14 @@ class ContractController extends Controller
         return response()->json($contractList, Response::HTTP_OK);
     }
 
-    public function store(Request $request)
+    public function store(StoreContractRequest $request)
     {
+        $token = JWTAuth::getToken();
+        $username = JWTAuth::getPayload($token)->toArray()["username"];
+        $user = User::where('username', $username)->first();
+
+        $request['user_id'] = $user->id;
+
         $today = Carbon::today()->format('d.m.Y');
         $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
 
@@ -50,7 +60,7 @@ class ContractController extends Controller
         $contract = Document::create($request->all());
 
         $contract["selectedEquipmentList"] = json_decode($contract["selectedEquipmentList"]);
-        $contract = $contract->with('collectAddress:id,name')->only([
+        $contract = $contract->only([
             'id',
             'contract_number',
             'collect_date',
@@ -87,9 +97,13 @@ class ContractController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreContractRequest $request, $id)
     {
-        // Validate Input
+        $token = JWTAuth::getToken();
+        $username = JWTAuth::getPayload($token)->toArray()["username"];
+        $user = User::where('username', $username)->first();
+
+        $request['user_id'] = $user->id;
 
         // Get Document with the id of $id
         $document = Document::where("id", $id)->first();

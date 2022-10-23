@@ -68,24 +68,30 @@ class DocumentController extends Controller
     {
         $document = Document::where("id", $id)->first();
 
-        if ($document->currentState == 'offer') {
+        if ($document->current_state == 'offer') {
             $DEtype = "Angebot";
-            $number = $document->offerNumber;
-            $documentDate = $document->offerDate;
+            $number = $document->offer_number;
+            $documentDate = $document->offer_date;
             $note = $document->offer_note;
+            $user = $document->user->name;
         }
-        if ($document->currentState == 'reservation') {
+        if ($document->current_state == 'reservation') {
             $DEtype = "Reservierung";
-            $number = $document->reservationNumber;
-            $documentDate = $document->reservationDate;
+            $number = $document->reservation_number;
+            $documentDate = $document->reservation_date;
             $note = $document->reservation_note;
+            $user = $document->user->name;
         }
-        if ($document->currentState == 'contract') {
+        if ($document->current_state == 'contract') {
             $DEtype = "Mietvertrag";
-            $number = $document->contractNumber;
-            $documentDate = $document->contractDate;
+            $number = $document->contract_number;
+            $documentDate = $document->contract_date;
             $note = $document->contract_note;
+            $user = $document->user->name;
         }
+
+
+        $yearShort = Carbon::createFromFormat('d.m.Y', $documentDate)->format('y');
 
         $data = [
             'document' => $document,
@@ -93,71 +99,19 @@ class DocumentController extends Controller
             'DEtype' => $DEtype,
             'documentDate' => $documentDate,
             'note' => $note,
+            'user' => $user,
+            'yearShort' => $yearShort,
         ];
 
 
         $pdf = Pdf::loadView('DocumentToPDF', $data);
-        $path = 'storage/' . $document->currentState . '/';
+        $path = 'storage/' . $document->current_state . '/';
         $savePath = public_path($path);
-        $fileName = $document->currentState . '-' . $number . '.pdf';
+        $fileName = $document->current_state . '-' . $number . '.pdf';
         $pdf->save($savePath . $fileName);
 
         $generatedPDFLink = url($path . $fileName);
 
-        return response()->json($generatedPDFLink);
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Document  $document
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Document $document)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Document  $document
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Document $document)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Document  $document
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Document $document)
-    {
-        //
+        return response()->json($generatedPDFLink, Response::HTTP_OK);
     }
 }

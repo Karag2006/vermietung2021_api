@@ -173,7 +173,7 @@
         max-height:200px;
         overflow:hidden;
         margin-bottom: 2em;
-        font-size: {{$fsize}};
+        font-size: smaller;
     }
 
     .collectAdressContainer{

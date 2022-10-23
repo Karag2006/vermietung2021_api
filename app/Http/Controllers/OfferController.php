@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OfferRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Models\User;
 
 class OfferController extends Controller
 {
@@ -48,14 +51,21 @@ class OfferController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OfferRequest $request)
     {
+        $token = JWTAuth::getToken();
+        $username = JWTAuth::getPayload($token)->toArray()["username"];
+        $user = User::where('username', $username)->first();
+
+        $request['user_id'] = $user->id;
+
         $today = Carbon::today()->format('d.m.Y');
         $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
 
         $request['offer_number'] = $this->getNextNumber();
         $request['current_state'] = "offer";
         $request['offer_date'] = $today;
+        $request['contract_bail'] = 100.0;
 
         $offer = Document::create($request->all());
 
@@ -102,9 +112,16 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OfferRequest $request, $id)
     {
-        // Validate Input
+        $token = JWTAuth::getToken();
+        $username = JWTAuth::getPayload($token)->toArray()["username"];
+        $user = User::where('username', $username)->first();
+
+        $request['user_id'] = $user->id;
+        if(!($request['contract_bail'] > 0)){
+            $request['contract_bail'] = 100.0;
+        }
 
         // Get Document with the id of $id
         $document = Document::where("id", $id)->first();

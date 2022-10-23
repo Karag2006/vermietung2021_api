@@ -20,7 +20,7 @@ class CreateTrailersTable extends Migration
             $table->string('chassisNumber')->nullable();
             $table->string('totalWeight')->nullable();
             $table->string('usableWeight')->nullable();
-            $table->string('loadingSize')->nullable();
+            $table->string('loading_size')->nullable();
             $table->date('tuev')->nullable();
             $table->longText('comment')->nullable();
             $table->timestamps();

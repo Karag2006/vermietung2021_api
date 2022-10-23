@@ -1,4 +1,4 @@
-@if ($document->currentState == "contract")
+@if ($document->current_state == "contract")
     <tr>
         <td class="txt-bold">Fahrer:</td>
         <td class="td-info">{{ $document->driver_name1 ?? $document->customer_name1 }} {{$document->driver_name2 ?? $document->customer_name2 }}</td>
@@ -18,5 +18,5 @@
         <td  ></td>
 @endif
     <td class="txt-bold pl-4">Mitarbeiter: </td>
-    <td class="td-info"> {{ $document->username ?? '' }}</td>
+    <td class="td-info"> {{ $user ?? '' }}</td>
 </tr>
