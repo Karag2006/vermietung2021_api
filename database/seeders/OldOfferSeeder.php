@@ -26,8 +26,8 @@ class OldOfferSeeder extends Seeder
                 'collect_time' => $this->cleanupTime($oldEntry->pick_up_time),
                 'return_time' => $this->cleanupTime($oldEntry->return_time),
                 'total_price' => $oldEntry->price,
-                'netto_price' => $oldEntry->netto_price,
-                'tax_value' => $oldEntry->tax,
+                'netto_price' => $this->getNettoPrice($oldEntry->netto_price, $oldEntry->price),
+                'tax_value' => $this->getVatValue($oldEntry->tax, $oldEntry->price),
                 'reservation_deposit_value' => $oldEntry->anzahlung,
                 'reservation_Deposit_date' => $oldEntry->anzahlung_date,
                 'reservation_deposit_type' => $this->setPaymentMethod($oldEntry->anzahlung_type),
@@ -117,6 +117,14 @@ class OldOfferSeeder extends Seeder
     // Set Seconds in the Time String to 0
     private function cleanupTime($time){
         return substr($time, 0, 6) . "00";
+    }
+
+    private function getNettoPrice($old_netto, $total){
+        return $old_netto ? $old_netto : $total - ($total * 0.19);
+    }
+
+    private function getVatValue($old_vat, $total){
+        return $old_vat ? $old_vat : $total * 0.19;
     }
 
     private function setPaymentMethod($method){
