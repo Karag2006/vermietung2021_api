@@ -6,6 +6,7 @@ use App\Models\Document;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class DocumentController extends Controller
@@ -103,14 +104,10 @@ class DocumentController extends Controller
             'yearShort' => $yearShort,
         ];
 
-
         $pdf = Pdf::loadView('DocumentToPDF', $data);
-        $path = 'storage/' . $document->current_state . '/';
-        $savePath = public_path($path);
-        $fileName = $document->current_state . '-' . $number . '.pdf';
-        $pdf->save($savePath . $fileName);
-
-        $generatedPDFLink = url($path . $fileName);
+        $fileName = $document->current_state . '/' . $number . '.pdf';
+        Storage::disk('public')->put($fileName, $pdf->download()->getOriginalContent());
+        $generatedPDFLink = asset('storage/' . $fileName);
 
         return response()->json($generatedPDFLink, Response::HTTP_OK);
     }
