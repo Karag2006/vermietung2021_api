@@ -15,13 +15,13 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'api'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['escobar-frontend.my-linode-server.de', '10.40.28.21', '10.40.28.21:5173', '*' ],
+    'allowed_origins' => ['http://escobar-frontend.my-linode-server.de', '10.40.28.21', '10.40.28.21:5173'],
 
-    'allowed_origins_patterns' => ['*'],
+    'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
