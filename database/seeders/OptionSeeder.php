@@ -27,6 +27,8 @@ class OptionSeeder extends Seeder
             'document_footer'   => '<p>Escobar Anhängercenter &nbsp;• &nbsp;Inh. : Torsten Hebenstrick &nbsp;• Industriepark 13 - 15 • D-56593 Horhausen / Westerwald<br>SteuerNr.: 02 / 062 / 51544 • USt-ID : DE 2411 499 64&nbsp;<br>Bankverbindung : Escobar Anhängercenter • VR-Bank Rhein Sieg • DE61 3706 9520 1202 5610 27</p>',
 
             'contactdata'       => '<p>Escobar Anhängercenter <br>Industriepark 13 - 15 <br>D-56593 Horhausen / Westerwald <br><br>Telefon : 02687 – 9289538</p>',
+
+            'license_classes' => '["B", "BE", "B96", "Klasse 3"]'
         ]);
     }
 }

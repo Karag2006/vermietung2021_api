@@ -27,6 +27,7 @@ class OptionController extends Controller
      */
     public function show(Option $option)
     {
+        $option["license_classes"] = json_decode($option["license_classes"]);
         return response()->json($option, Response::HTTP_OK);
     }
 
@@ -51,5 +52,14 @@ class OptionController extends Controller
         $option->update($request->all());
 
         return response()->json($option, Response::HTTP_OK);
+    }
+
+    public function showLicenseClasses(Option $option) {
+        return response()->json(json_decode($option["license_classes"]), Response::HTTP_OK);
+    }
+
+    public function updateLicenseClasses(Request $request, Option $option) {
+        // TODO: Save updated License Classes Array
+        // Request = Array, save as json encoded String
     }
 }

@@ -16,5 +16,6 @@ class Option extends Model
         'contract_note',
         'document_footer',
         'contactdata',
+        'license_classes'
     ];
 }
