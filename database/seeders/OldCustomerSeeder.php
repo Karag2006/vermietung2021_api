@@ -8,6 +8,20 @@ use Illuminate\Support\Facades\DB;
 
 class OldCustomerSeeder extends Seeder
 {
+
+    private function setDriversLicense($oldClass){
+        if(!$oldClass) return null;
+        switch ($oldClass) {
+            case 'b':
+                return "B";
+            case 'be':
+                return "BE";
+            case 'b96':
+                return "B96";
+            default:
+                return "Klasse 3";
+        }
+    }
     /**
      * Run the database seeds.
      *
@@ -32,7 +46,7 @@ class OldCustomerSeeder extends Seeder
                 'car_number' => $oldEntry->car_number,
                 'email' => $oldEntry->email,
                 'driving_license_no' => $oldEntry->driving_license_no,
-                'driving_license_class' => $oldEntry->driving_license_class,
+                'driving_license_class' => $this->setDriversLicense($oldEntry->driving_license_class),
                 'comment' => $oldEntry->comment,
             ];
             DB::connection('mysql')->table('customers')->insert($newEntry);
