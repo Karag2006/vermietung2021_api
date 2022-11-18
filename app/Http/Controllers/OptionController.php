@@ -59,7 +59,13 @@ class OptionController extends Controller
     }
 
     public function updateLicenseClasses(Request $request, Option $option) {
-        // TODO: Save updated License Classes Array
-        // Request = Array, save as json encoded String
+
+        $this->validate($request, [
+            'license_classes' => 'present|array',
+        ]);
+        $option['license_classes'] = json_encode($request["license_classes"]);
+        $option->save();
+
+        return response()->json($option, Response::HTTP_OK);
     }
 }

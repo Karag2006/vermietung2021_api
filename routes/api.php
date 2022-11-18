@@ -38,6 +38,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::patch('document/{id}', [DocumentController::class, 'forwardDocument']);
     Route::get('trailer/tuev/{trailer}', [TrailerController::class, 'getTuev']);
     Route::get('options/licenseclasses/{option}', [OptionController::class, 'showLicenseClasses']);
+    Route::patch('options/licenseclasses/{option}', [OptionController::class, 'updateLicenseClasses']);
 
     // Full CRUD Routes
     Route::apiResource('user', UserController::class);
