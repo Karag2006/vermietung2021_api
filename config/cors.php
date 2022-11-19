@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://escobar-frontend.my-linode-server.de', 'http://10.40.28.21:8080', 'http://localhost:8080'],
+    'allowed_origins' => ['https://escobar-frontend.my-linode-server.de', 'http://10.40.28.21:8080', 'http://localhost:8080'],
 
     'allowed_origins_patterns' => [],
 
