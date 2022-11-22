@@ -66,6 +66,6 @@ class OptionController extends Controller
         $option['license_classes'] = json_encode($request["license_classes"]);
         $option->save();
 
-        return response()->json($option, Response::HTTP_OK);
+        return response()->json(json_decode($option["license_classes"]), Response::HTTP_OK);
     }
 }
