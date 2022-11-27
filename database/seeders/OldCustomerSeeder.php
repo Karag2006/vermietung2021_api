@@ -22,11 +22,21 @@ class OldCustomerSeeder extends Seeder
                 return "Klasse 3";
         }
     }
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+
+    private function createNameField($oldName, $oldFirstName){
+        if(count(explode(' ', $oldName)) > 1){
+            return $oldName;
+        }
+        else return ($oldFirstName . ' ' . $oldName);
+    }
+
+    private function createName2Field($oldName, $oldFirstName){
+        if(count(explode(' ', $oldName)) > 1){
+            return $oldFirstName;
+        }
+        else return '';
+    }
+
     public function run()
     {
         $oldData = DB::connection('mysql_old')->table('customers')->get();
@@ -35,8 +45,8 @@ class OldCustomerSeeder extends Seeder
             $newEntry = [
                 'id' => $oldEntry->id,
                 'pass_number' => $oldEntry->pass_number,
-                'name1' => $oldEntry->f_name,
-                'name2' => $oldEntry->name,
+                'name1' => $this->createNameField($oldEntry->name, $oldEntry->f_name),
+                'name2' => $this->createName2Field($oldEntry->name, $oldEntry->f_name),
                 'street' => $oldEntry->street,
                 'plz' => $oldEntry->plz,
                 'city' => $oldEntry->city,
