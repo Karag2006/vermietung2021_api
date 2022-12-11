@@ -68,4 +68,19 @@ class OptionController extends Controller
 
         return response()->json(json_decode($option["license_classes"]), Response::HTTP_OK);
     }
+
+    public function showPaymentTypes(Option $option) {
+        return response()->json(json_decode($option["payment_types"]), Response::HTTP_OK);
+    }
+
+    public function updatePaymentTypes(Request $request, Option $option) {
+
+        $this->validate($request, [
+            'payment_types' => 'present|array',
+        ]);
+        $option['payment_types'] = json_encode($request["payment_types"]);
+        $option->save();
+
+        return response()->json(json_decode($option["payment_types"]), Response::HTTP_OK);
+    }
 }

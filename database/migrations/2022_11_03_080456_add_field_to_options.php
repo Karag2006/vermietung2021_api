@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('options', function (Blueprint $table) {
             $table->string('license_classes')->nullable()->after('contactdata');
+            $table->string('payment_types')->nullable()->after('license_classes');
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
     {
         Schema::table('options', function (Blueprint $table) {
             $table->dropColumn('license_classes');
+            $table->dropColumn('payment_types');
         });
     }
 };

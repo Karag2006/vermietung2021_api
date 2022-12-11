@@ -28,7 +28,8 @@ class OptionSeeder extends Seeder
 
             'contactdata'       => '<p>Escobar Anhängercenter <br>Industriepark 13 - 15 <br>D-56593 Horhausen / Westerwald <br><br>Telefon : 02687 – 9289538</p>',
 
-            'license_classes' => '["B", "BE", "B96", "Klasse 3"]'
+            'license_classes' => '["B", "BE", "B96", "Klasse 3"]',
+            'payment_types' => '["Bar", "EC-Karte", "Überweisung"]'
         ]);
     }
 }
