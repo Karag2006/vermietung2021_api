@@ -9,45 +9,49 @@
     $size2Span3 = $sizeTwo + $sizeThree + $sizeFour;
 
     // Note Font Size calculation
-    $str_lines = str_word_count( $note )/12;
-    $fsize =  ($str_lines > 12) ? 'smaller': '' ;
+    $str_lines = str_word_count($note) / 12;
+    $fsize = $str_lines > 12 ? 'smaller' : '';
 
 @endphp
 
 <style>
-    @@font-face{
+    @@font-face {
         font-family: 'Verdana';
         font-weight: normal;
         font-style: normal;
         src: url({{ storage_path('fonts/Verdana.ttf') }}) format("truetype");
     }
 
-    @@font-face{
+    @@font-face {
         font-family: 'Verdana';
         font-weight: bold;
         font-style: normal;
         src: url({{ storage_path('fonts/Verdana Bold.ttf') }}) format("truetype");
     }
-    body
-    {
+
+    body {
         margin: -2mm 0mm -2mm 0mm;
         font-size: 0.7em;
         font-family: "Helvetica";
     }
-    #invoice-print{
+
+    #invoice-print {
         padding: 0;
         margin: 0;
     }
-    .invoice-print .hidden-print{
+
+    .invoice-print .hidden-print {
         display: none;
     }
-    .logo{
+
+    .logo {
         margin-left: auto;
         margin-right: auto;
         width: 220px;
         height: 129px;
-        border: 1px solid   #000;
+        border: 1px solid #000;
     }
+
     .footer {
         width: 100%;
         text-align: center;
@@ -62,19 +66,24 @@
         width: 100%;
         height: 50px;
     }
-    .text-right{
+
+    .text-right {
         text-align: right;
     }
-    .text-left{
+
+    .text-left {
         text-align: left;
     }
-    .txt-center{
+
+    .txt-center {
         text-align: center;
     }
-    .txt-bold{
+
+    .txt-bold {
         font-weight: bold;
     }
-    .td-info{
+
+    .td-info {
         margin-left: 0px;
         padding: 3px 2px;
         padding-left: 3px;
@@ -89,7 +98,8 @@
     .td-info-left {
         width: 80mm;
     }
-   .header-right {
+
+    .header-right {
         padding-top: 0px;
         padding-bottom: 6px;
         margin: 0;
@@ -98,23 +108,33 @@
         text-align: right;
         font-family: Helvetica !important;
     }
-   .header-border{
-       border: 1px solid   #000;
-       padding: 7px;
-   }
-    .contact{
+
+    .header-border {
+        border: 1px solid #000;
+        padding: 7px;
+    }
+
+    .contact {
         font-size: 14px;
     }
-    td img{
+
+    .introduction {
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+    td img {
         display: block;
         margin-left: auto;
         margin-right: auto;
 
     }
-    .pl-4{
+
+    .pl-4 {
         padding-left: 6px;
     }
-    .pl-2{
+
+    .pl-2 {
         padding-left: 6px;
     }
 
@@ -128,13 +148,13 @@
         bottom: 75px;
     }
 
-    .customerTable{
+    .customerTable {
         width: 100%;
         border-spacing: 0;
         border-collapse: collapse;
     }
 
-    .mainTable{
+    .mainTable {
         width: 100%;
         margin: 30px auto
     }
@@ -154,6 +174,7 @@
     .mainTable .tdFour {
         width: {{ $sizeFour }} mm;
     }
+
     .mainTable .tdFive {
         width: {{ $sizeFive }} mm;
     }
@@ -162,32 +183,33 @@
         width: {{ $size2Span3 }} mm;
     }
 
-    .noteHead{
+    .noteHead {
         margin-bottom: 0;
         margin-top: 1em;
         text-decoration: underline;
     }
-    .note{
-        display:block;
-        width:100%;
-        max-height:200px;
-        overflow:hidden;
+
+    .note {
+        display: block;
+        width: 100%;
+        max-height: 200px;
+        overflow: hidden;
         margin-bottom: 2em;
         font-size: smaller;
     }
 
-    .collectAdressContainer{
+    .collectAdressContainer {
         margin-bottom: 7px;
         margin-top: 7px;
     }
 
-    .collectAdressSpan{
-        display:block;
-        padding-bottom:6px;
+    .collectAdressSpan {
+        display: block;
+        padding-bottom: 6px;
         font-weight: bold
     }
-    .bailRowTwo{
+
+    .bailRowTwo {
         padding-top: 7px;
     }
-
 </style>

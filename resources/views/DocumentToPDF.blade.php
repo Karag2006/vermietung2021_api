@@ -1,27 +1,32 @@
 @include('PDFComponents.CSSStyle')
+
 <body>
     <div id="invoice-print" class="invoice-print">
 
         @include('PDFComponents.Header')
         <hr>
 
-        {{--  Start Customer section--}}
+
+        @if ($document->current_state == 'contract')
+            @include('PDFComponents.ContractIntroduction')
+        @endif
+        {{--  Start Customer section --}}
         <table class="customerTable">
             @include('PDFComponents.CustomerData')
             @include('PDFComponents.DriverData')
         </table>
-        @if ($document->current_state == "contract")
+        @if ($document->current_state == 'contract')
             @include('PDFComponents.PersonalInfo')
         @endif
-        {{--  End Customer section--}}
+        {{--  End Customer section --}}
 
 
-        {{--vehicle section--}}
+        {{-- vehicle section --}}
         <table class="mainTable">
             @include('PDFComponents.VehicleInfo')
             @include('PDFComponents.mainTableSpacer')
 
-            @if ($document->selectedEquipmentList != "[]")
+            @if ($document->selectedEquipmentList != '[]')
                 @include('PDFComponents.selectedEquipment')
                 @include('PDFComponents.mainTableSpacer')
             @endif
