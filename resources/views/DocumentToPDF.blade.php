@@ -2,7 +2,6 @@
 
 <body>
     <div id="invoice-print" class="invoice-print">
-
         @include('PDFComponents.Header')
         <hr>
 
@@ -26,7 +25,10 @@
             @include('PDFComponents.VehicleInfo')
             @include('PDFComponents.mainTableSpacer')
 
-            @if ($document->selectedEquipmentList != '[]')
+            @if (
+                !is_null($document['selectedEquipmentList']) &&
+                    $document['selectedEquipmentList'] != 'null' &&
+                    $document['selectedEquipmentList'] != '[]')
                 @include('PDFComponents.selectedEquipment')
                 @include('PDFComponents.mainTableSpacer')
             @endif
@@ -42,7 +44,9 @@
             @include('PDFComponents.Prices')
             @include('PDFComponents.mainTableSpacer')
 
-            @include('PDFComponents.bail')
+            @if ($document->contract_bail > 0)
+                @include('PDFComponents.bail')
+            @endif
 
         </table>
 

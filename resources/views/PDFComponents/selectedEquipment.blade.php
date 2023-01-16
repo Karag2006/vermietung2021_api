@@ -1,5 +1,5 @@
 @php
-    $document["selectedEquipmentList"] = json_decode($document["selectedEquipmentList"]);
+    $document['selectedEquipmentList'] = json_decode($document['selectedEquipmentList']);
 @endphp
 
 <tr>
@@ -7,7 +7,7 @@
 </tr>
 <tr>
     <td class="td-info text-left txt-bold" colspan="6">
-        @foreach($document->selectedEquipmentList as $key => $equipment)
+        @foreach ($document->selectedEquipmentList as $key => $equipment)
             {{ $equipment->number }} x {{ $equipment->name }}&nbsp;&nbsp; | &nbsp;&nbsp;
         @endforeach
     </td>

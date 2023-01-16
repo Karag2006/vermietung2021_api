@@ -93,7 +93,7 @@ class StoreContractRequest extends FormRequest
                 'required_if:reservation_deposit_recieved,true',
                 Rule::in(['Bar', 'EC-Karte', 'Überweisung']),
             ],
-            'reservation_deposit_recieved' => 'nullable|required_with:reservation_deposit_value|boolean',
+            'reservation_deposit_recieved' => 'nullable|boolean',
             'final_payment_value' => 'required|numeric|lte:total_price',
             'final_payment_date' => 'required|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
             'final_payment_type' => [
