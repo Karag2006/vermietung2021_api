@@ -114,11 +114,12 @@ class OfferController extends Controller
      */
     public function update(OfferRequest $request, $id)
     {
-        $token = JWTAuth::getToken();
-        $username = JWTAuth::getPayload($token)->toArray()["username"];
-        $user = User::where('username', $username)->first();
+        // $token = JWTAuth::getToken();
+        // $username = JWTAuth::getPayload($token)->toArray()["username"];
+        // $user = User::where('username', $username)->first();
 
-        $request['user_id'] = $user->id;
+        // $request['user_id'] = $user->id;
+
         if(!($request['contract_bail'] > 0)){
             $request['contract_bail'] = 100.0;
         }

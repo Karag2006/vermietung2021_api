@@ -194,13 +194,13 @@
         width: 100%;
         max-height: 200px;
         overflow: hidden;
-        margin-bottom: 2em;
+        margin-bottom: 0;
         font-size: smaller;
     }
 
     .collectAdressContainer {
         margin-bottom: 7px;
-        margin-top: 7px;
+        margin-top: 2.5rem;
     }
 
     .collectAdressSpan {
@@ -211,5 +211,10 @@
 
     .bailRowTwo {
         padding-top: 7px;
+    }
+
+    .noteBottom {
+        position: absolute;
+        bottom: 50px;
     }
 </style>

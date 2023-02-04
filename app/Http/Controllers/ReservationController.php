@@ -111,11 +111,11 @@ class ReservationController extends Controller
      */
     public function update(ReservationRequest $request, $id)
     {
-        $token = JWTAuth::getToken();
-        $username = JWTAuth::getPayload($token)->toArray()["username"];
-        $user = User::where('username', $username)->first();
+        // $token = JWTAuth::getToken();
+        // $username = JWTAuth::getPayload($token)->toArray()["username"];
+        // $user = User::where('username', $username)->first();
 
-        $request['user_id'] = $user->id;
+        // $request['user_id'] = $user->id;
 
         // Get Document with the id of $id
         $document = Document::where("id", $id)->first();
