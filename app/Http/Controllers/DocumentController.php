@@ -23,6 +23,21 @@ class DocumentController extends Controller
         return $default;
     }
 
+    private function getISODate($value){
+        return $value ? Carbon::createFromFormat(config('custom.date_format'), $value)->format('Y-m-d') : null;
+    }
+
+    private function getGermanDate($value){
+        return $value ? Carbon::parse($value)->format(config('custom.date_format')) : null;
+    }
+
+    private function translateDocumentType($type){
+        if ($type === 'offer') return "Angebot";
+        if ($type === 'reservation') return "Reservierung";
+        if ($type === 'contract') return "Mietvertrag";
+        return null;
+    }
+
     public function forwardDocument(Request $request, $id){
         $document = Document::where("id", $id)->first();
 
@@ -64,6 +79,49 @@ class DocumentController extends Controller
             Response::HTTP_OK
         );
     }
+
+
+    public function collisionCheck(Request $request) {
+
+        if (!$request['vehicle_id'] ||
+            !$request['collect_date'] ||
+            !$request['return_date'] ||
+            !$request['collect_time'] ||
+            !$request['return_time']
+        )
+        return response()->json(null, Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        $collectDate = $this->getISODate($request['collect_date']);
+        $returnDate = $this->getISODate($request['return_date']);
+        $currentDate = Carbon::today()->format('Y-m-d');
+
+        $collisionDocument = Document::whereNot('id', $request['id'])
+            ->whereNot('return_date', '<', $currentDate)
+            ->where('vehicle_id', $request['vehicle_id'])
+            ->where(function ($query) use($collectDate, $returnDate){
+                $query->where('collect_date', '<=', $returnDate)
+                ->where('return_date', '>=', $collectDate);
+            })->first();
+
+        if(!$collisionDocument) return response()->json(['collision' => 'no'], Response::HTTP_OK);
+
+        $data = [
+            'collision' => 'yes',
+            'collisionData' => [
+                'documentType' => $this->translateDocumentType($collisionDocument['current_state']),
+                'documentNumber' => $collisionDocument[$collisionDocument['current_state'].'_number'],
+                'startDate' => $collisionDocument['collect_date'],
+                'endDate' => $collisionDocument['return_date'],
+                'startTime' => $collisionDocument['collect_time'],
+                'endTime' => $collisionDocument['return_time'],
+                'customerName' => $collisionDocument['customer_name1'],
+                'reservationFeePayed' => $collisionDocument['reservation_deposit_recieved'],
+                'reservationFeeDate' => $collisionDocument['reservation_deposit_date']
+            ]
+        ];
+        return response()->json($data, Response::HTTP_OK);
+    }
+
 
     public function downloadPDF($id)
     {

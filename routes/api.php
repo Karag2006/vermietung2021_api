@@ -37,6 +37,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('document/{id}', [DocumentController::class, 'downloadPDF']);
     Route::patch('document/{id}', [DocumentController::class, 'forwardDocument']);
     Route::get('trailer/tuev/{trailer}', [TrailerController::class, 'getTuev']);
+    Route::post('collisionCheck', [DocumentController::class, 'collisionCheck']);
     Route::get('options/licenseclasses/{option}', [OptionController::class, 'showLicenseClasses']);
     Route::patch('options/licenseclasses/{option}', [OptionController::class, 'updateLicenseClasses']);
     Route::get('options/paymentTypes/{option}', [OptionController::class, 'showPaymentTypes']);
