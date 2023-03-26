@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DocumentResource;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,19 +14,21 @@ use App\Models\User;
 
 class OfferController extends Controller
 {
-    private function getNextNumber(){
+    private function getNextNumber()
+    {
         $number = 26538;
         $document = Document::select('offer_number')
             ->where('current_state', 'offer')
             ->orderBy('offer_number', 'desc')
             ->first();
-        if($document) {
+        if ($document) {
             $number = $document->offer_number + 1;
         }
         return $number;
     }
 
-    public function getHighestNumber(){
+    public function getHighestNumber()
+    {
 
 
     }
@@ -53,21 +56,9 @@ class OfferController extends Controller
      */
     public function store(OfferRequest $request)
     {
-        $token = JWTAuth::getToken();
-        $username = JWTAuth::getPayload($token)->toArray()["username"];
-        $user = User::where('username', $username)->first();
+        $data = $this->useInput($request->input(), 'new');
 
-        $request['user_id'] = $user->id;
-
-        $today = Carbon::today()->format('d.m.Y');
-        $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
-
-        $request['offer_number'] = $this->getNextNumber();
-        $request['current_state'] = "offer";
-        $request['offer_date'] = $today;
-        $request['contract_bail'] = 100.0;
-
-        $offer = Document::create($request->all());
+        $offer = Document::create($data);
 
         // for the Response limit the elements of the newly created Customer
         // to those that are also transfered in the Ressource List.
@@ -100,9 +91,7 @@ class OfferController extends Controller
         // Get Document with the id of $id
         $document = Document::where("id", $id)->first();
 
-        $document["selectedEquipmentList"] = json_decode($document["selectedEquipmentList"]);
-
-        return response()->json($document, Response::HTTP_OK);
+        return new DocumentResource($document);
     }
 
     /**
@@ -120,14 +109,12 @@ class OfferController extends Controller
 
         // $request['user_id'] = $user->id;
 
-        if(!($request['contract_bail'] > 0)){
-            $request['contract_bail'] = 100.0;
-        }
+        $data = $this->useInput($request->input(), 'update');
 
         // Get Document with the id of $id
         $document = Document::where("id", $id)->first();
 
-        $document->update($request->all());
+        $document->update($data);
 
         $document = $document->only([
             'id',
@@ -164,5 +151,51 @@ class OfferController extends Controller
         return response()->json($id, Response::HTTP_OK);
     }
 
+
+    private function useInput($input, $mode)
+    {
+        $output = [];
+        $customer = $input['customer'];
+        $driver = $input['driver'];
+        $trailer = $input['trailer'];
+        $data = $input['data'];
+        $settings = $input['settings'];
+
+        foreach ($customer as $key => $value) {
+            $output['customer_' . $key] = $value;
+        }
+        foreach ($driver as $key => $value) {
+            $output['driver_' . $key] = $value;
+        }
+        foreach ($trailer as $key => $value) {
+            $output['vehicle_' . $key] = $value;
+        }
+        foreach ($data as $key => $value) {
+            $output[$key] = $value;
+        }
+        foreach ($settings as $key => $value) {
+            $output[$key] = $value;
+        }
+
+        if ($mode == 'new') {
+            $token = JWTAuth::getToken();
+            $username = JWTAuth::getPayload($token)->toArray()["username"];
+            $user = User::where('username', $username)->first();
+
+            $output['user_id'] = $user->id;
+
+            $today = Carbon::today()->format('d.m.Y');
+            $output['selectedEquipmentList'] = json_encode($output['selectedEquipmentList']);
+
+            $output['offer_number'] = $this->getNextNumber();
+            $output['current_state'] = "offer";
+            $output['offer_date'] = $today;
+            $output['contract_bail'] = 100.0;
+        }
+
+
+        return $output;
+
+    }
 
 }

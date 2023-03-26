@@ -42,7 +42,6 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::patch('options/licenseclasses/{option}', [OptionController::class, 'updateLicenseClasses']);
     Route::get('options/paymentTypes/{option}', [OptionController::class, 'showPaymentTypes']);
     Route::patch('options/paymentTypes/{option}', [OptionController::class, 'updatePaymentTypes']);
-
     // Full CRUD Routes
     Route::apiResource('user', UserController::class);
     Route::apiResource('customer', CustomerController::class);

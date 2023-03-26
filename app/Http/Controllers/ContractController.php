@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DocumentResource;
 use App\Models\Document;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,19 +16,21 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class ContractController extends Controller
 {
 
-    private function getNextNumber(){
+    private function getNextNumber()
+    {
         $number = 465382;
         $document = Document::select('contract_number')
             ->where('current_state', 'contract')
             ->orderBy('contract_number', 'desc')
             ->first();
-        if($document) {
+        if ($document) {
             $number = $document->contract_number + 1;
         }
         return $number;
     }
 
-    public function getHighestNumber(){
+    public function getHighestNumber()
+    {
 
         return response()->json($this->getNextNumber(), Response::HTTP_OK);
     }
@@ -44,20 +47,9 @@ class ContractController extends Controller
 
     public function store(StoreContractRequest $request)
     {
-        $token = JWTAuth::getToken();
-        $username = JWTAuth::getPayload($token)->toArray()["username"];
-        $user = User::where('username', $username)->first();
+        $data = $this->useInput($request->input(), 'new');
 
-        $request['user_id'] = $user->id;
-
-        $today = Carbon::today()->format('d.m.Y');
-        $request['selectedEquipmentList'] = json_encode($request['selectedEquipmentList']);
-
-        $request['contract_number'] = $this->getNextNumber();
-        $request['current_state'] = "contract";
-        $request['contract_date'] = $today;
-
-        $contract = Document::create($request->all());
+        $contract = Document::create($data);
 
         $contract["selectedEquipmentList"] = json_decode($contract["selectedEquipmentList"]);
         $contract = $contract->only([
@@ -85,9 +77,7 @@ class ContractController extends Controller
         // Get Document with the id of $id
         $document = Document::where("id", $id)->first();
 
-        $document["selectedEquipmentList"] = json_decode($document["selectedEquipmentList"]);
-
-        return response()->json($document, Response::HTTP_OK);
+        return new DocumentResource($document);
     }
 
     /**
@@ -105,10 +95,12 @@ class ContractController extends Controller
 
         // $request['user_id'] = $user->id;
 
+        $data = $this->useInput($request->input(), 'update');
+
         // Get Document with the id of $id
         $document = Document::where("id", $id)->first();
 
-        $document->update($request->all());
+        $document->update($data);
 
         $document = $document->only([
             'id',
@@ -143,5 +135,51 @@ class ContractController extends Controller
 
         // include the id in the Response, so the Frontend can update its list.
         return response()->json($id, Response::HTTP_OK);
+    }
+
+    private function useInput($input, $mode)
+    {
+        $output = [];
+        $customer = $input['customer'];
+        $driver = $input['driver'];
+        $trailer = $input['trailer'];
+        $data = $input['data'];
+        $settings = $input['settings'];
+
+        foreach ($customer as $key => $value) {
+            $output['customer_' . $key] = $value;
+        }
+        foreach ($driver as $key => $value) {
+            $output['driver_' . $key] = $value;
+        }
+        foreach ($trailer as $key => $value) {
+            $output['vehicle_' . $key] = $value;
+        }
+        foreach ($data as $key => $value) {
+            $output[$key] = $value;
+        }
+        foreach ($settings as $key => $value) {
+            $output[$key] = $value;
+        }
+
+        if ($mode == 'new') {
+            $token = JWTAuth::getToken();
+            $username = JWTAuth::getPayload($token)->toArray()["username"];
+            $user = User::where('username', $username)->first();
+
+            $output['user_id'] = $user->id;
+
+            $today = Carbon::today()->format('d.m.Y');
+            $output['selectedEquipmentList'] = json_encode($output['selectedEquipmentList']);
+
+            $output['contract_number'] = $this->getNextNumber();
+            $output['current_state'] = "contract";
+            $output['contract_date'] = $today;
+            $output['contract_bail'] = 100.0;
+        }
+
+
+        return $output;
+
     }
 }

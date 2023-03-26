@@ -25,81 +25,83 @@ class ReservationRequest extends FormRequest
     public function rules()
     {
         $customerRules = [
-            'customer_pass_number' => 'string|min:8|max:30|nullable',
-            'customer_name1' => 'required|string|min:5|max:50',
-            'customer_name2' => 'string|min:5|max:50|nullable',
-            'customer_birth_date' => 'nullable|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
-            'customer_birth_city' => 'string|min:3|max:50|nullable',
-            'customer_plz' => 'nullable|regex:/^(?:[0-9]{5})$/',
-            'customer_city' => 'nullable|string|min:3|max:50',
-            'customer_street' => 'nullable|string|min:3|max:50',
-            'customer_phone' => 'string|min:6|max:20|nullable',
-            'customer_car_number' => 'string|min:5|max:15|nullable',
-            'customer_email' => 'email|nullable',
-            'customer_driving_license_no' => 'string|min:6|max:15|nullable',
-            'customer_driving_license_class' => [
-                Rule::in(['B', 'BE', 'B96', 'Klasse 3']), 'nullable'
+            'customer.pass_number' => 'string|min:8|max:30|nullable',
+            'customer.name1' => 'required|string|min:5|max:50',
+            'customer.name2' => 'string|max:50|nullable',
+            'customer.birth_date' => 'nullable|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
+            'customer.birth_city' => 'string|min:3|max:50|nullable',
+            'customer.plz' => 'nullable|regex:/^(?:[0-9]{5})$/',
+            'customer.city' => 'nullable|string|min:3|max:50',
+            'customer.street' => 'nullable|string|min:3|max:50',
+            'customer.phone' => 'string|min:6|max:20|nullable',
+            'customer.car_number' => 'string|min:5|max:15|nullable',
+            'customer.email' => 'email|nullable',
+            'customer.driving_license_no' => 'string|min:6|max:15|nullable',
+            'customer.driving_license_class' => [
+                Rule::in(['B', 'BE', 'B96', 'Klasse 3']),
+                'nullable'
             ],
-            'customer_comment' => 'string|max:1000|nullable',
+            'customer.comment' => 'string|max:1000|nullable',
         ];
 
         $driverRules = [
-            'driver_pass_number' => 'string|min:8|max:30|nullable',
-            'driver_name1' => 'string|min:5|max:50|nullable',
-            'driver_name2' => 'string|min:5|max:50|nullable',
-            'driver_birth_date' => 'nullable|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
-            'driver_birth_city' => 'string|min:3|max:50|nullable',
-            'driver_plz' => 'nullable|regex:/^(?:[0-9]{5})$/',
-            'driver_city' => 'string|min:3|max:50|nullable',
-            'driver_street' => 'string|min:3|max:50|nullable',
-            'driver_phone' => 'string|min:6|max:20|nullable',
-            'driver_car_number' => 'string|min:5|max:15|nullable',
-            'driver_email' => 'email|nullable',
-            'driver_driving_license_no' => 'string|min:6|max:15|nullable',
-            'driver_driving_license_class' => [
-                Rule::in(['B', 'BE', 'B96', 'Klasse 3']), 'nullable'
+            'driver.pass_number' => 'string|min:8|max:30|nullable',
+            'driver.name1' => 'string|min:5|max:50|nullable',
+            'driver.name2' => 'string|max:50|nullable',
+            'driver.birth_date' => 'nullable|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
+            'driver.birth_city' => 'string|min:3|max:50|nullable',
+            'driver.plz' => 'nullable|regex:/^(?:[0-9]{5})$/',
+            'driver.city' => 'string|min:3|max:50|nullable',
+            'driver.street' => 'string|min:3|max:50|nullable',
+            'driver.phone' => 'string|min:6|max:20|nullable',
+            'driver.car_number' => 'string|min:5|max:15|nullable',
+            'driver.email' => 'email|nullable',
+            'driver.driving_license_no' => 'string|min:6|max:15|nullable',
+            'driver.driving_license_class' => [
+                Rule::in(['B', 'BE', 'B96', 'Klasse 3']),
+                'nullable'
             ],
-            'driver_comment' => 'string|max:1000|nullable',
+            'driver.comment' => 'string|max:1000|nullable',
         ];
 
         $trailerRules = [
-            'vehicle_title' => 'required|string|min:8|max:50',
-            'vehicle_plateNumber' => 'required|string|max:15',
-            'vehicle_chassisNumber' => 'required|string|max:30',
-            'vehicle_totalWeight' => 'required|integer|min:500|max:3500',
-            'vehicle_usableWeight' => 'required|integer|min:1|lt:vehicle_totalWeight',
-            'vehicle_loading_size' => 'required|array',
-            'vehicle_loading_size.0' => 'required|integer|min:100|max:800',
-            'vehicle_loading_size.1' => 'required|integer|min:50|max:250',
-            'vehicle_loading_size.2' => 'nullable|integer|min:1|max:250',
-            'vehicle_comment' => 'string|max:1000|nullable',
+            'trailer.title' => 'required|string|min:8|max:50',
+            'trailer.plateNumber' => 'required|string|max:15',
+            'trailer.chassisNumber' => 'required|string|max:30',
+            'trailer.totalWeight' => 'required|integer|min:500|max:3500',
+            'trailer.usableWeight' => 'required|integer|min:1|lt:trailer.totalWeight',
+            'trailer.loading_size' => 'required|array',
+            'trailer.loading_size.0' => 'required|integer|min:100|max:800',
+            'trailer.loading_size.1' => 'required|integer|min:50|max:250',
+            'trailer.loading_size.2' => 'nullable|integer|min:1|max:250',
+            'trailer.comment' => 'string|max:1000|nullable',
         ];
 
         $reservationRules = [
-            'collect_date' => 'required|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
-            'return_date' => 'required|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
-            'collect_time' => 'required|regex:/^(?:[0-9]{2})\:(?:[0-9]{2})$/',
-            'return_time' => 'required|regex:/^(?:[0-9]{2})\:(?:[0-9]{2})$/',
-            'collect_address_id' => 'required|integer|max:100',
-            'total_price' => 'required|numeric|min:1|max:9999',
-            'netto_price' => 'required|numeric|lte:total_price',
-            'tax_value' => 'required|numeric|lte:total_price',
-            'reservation_deposit_value' => 'nullable|required_if:reservation_deposit_recieved,true|numeric|lte:total_price',
-            'reservation_deposit_date' => 'nullable|required_if:reservation_deposit_recieved,true|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
-            'reservation_deposit_type' => [
+            'data.collect_date' => 'required|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
+            'data.return_date' => 'required|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
+            'data.collect_time' => 'required|regex:/^(?:[0-9]{2})\:(?:[0-9]{2})$/',
+            'data.return_time' => 'required|regex:/^(?:[0-9]{2})\:(?:[0-9]{2})$/',
+            'data.collect_address_id' => 'required|integer|max:100',
+            'data.total_price' => 'required|numeric|min:1|max:9999',
+            'data.netto_price' => 'required|numeric|lte:data.total_price',
+            'data.tax_value' => 'required|numeric|lte:data.total_price',
+            'data.reservation_deposit_value' => 'nullable|required_if:data.reservation_deposit_recieved,true|numeric|lte:data.total_price',
+            'data.reservation_deposit_date' => 'nullable|required_if:data.reservation_deposit_recieved,true|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
+            'data.reservation_deposit_type' => [
                 'nullable',
-                'required_if:reservation_deposit_recieved,true',
+                'required_if:data.reservation_deposit_recieved,true',
                 Rule::in(['Bar', 'EC-Karte', 'Überweisung']),
             ],
-            'reservation_deposit_recieved' => 'nullable|boolean',
-            'final_payment_value' => 'required|numeric|lte:total_price',
-            'final_payment_date' => 'nullable|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
-            'final_payment_type' => [
+            'data.reservation_deposit_recieved' => 'nullable|boolean',
+            'data.final_payment_value' => 'required|numeric|lte:data.total_price',
+            'data.final_payment_date' => 'nullable|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
+            'data.final_payment_type' => [
                 'nullable',
                 Rule::in(['Bar', 'EC-Karte', 'Überweisung']),
             ],
-            'final_payment_recieved' => 'nullable|boolean',
-            'comment' => 'string|max:1000|nullable',
+            'data.final_payment_recieved' => 'nullable|boolean',
+            'data.comment' => 'string|max:1000|nullable',
         ];
 
         $allRules = array_merge($customerRules, $driverRules, $trailerRules, $reservationRules);
@@ -115,14 +117,14 @@ class ReservationRequest extends FormRequest
     public function attributes()
     {
         return [
-            'customer_pass_number' => 'Kunde - Ausweisnummer',
-            'customer_phone' => 'Kunde - Telefon',
-            'customer_driving_license_no' => 'Kunde - Führerschein Nr.',
-            'driver_pass_number' => 'Fahrer - Ausweisnummer',
-            'driver_phone' => 'Fahrer - Telefon',
-            'driver_driving_license_no' => 'Fahrer - Führerschein Nr.',
-            'reservation_deposit_recieved' => 'Anzahlung eingegangen',
-            'reservation_deposit_value' => 'Anzahlung',
+            'customer.pass_number' => 'Kunde - Ausweisnummer',
+            'customer.phone' => 'Kunde - Telefon',
+            'customer.driving_license_no' => 'Kunde - Führerschein Nr.',
+            'driver.pass_number' => 'Fahrer - Ausweisnummer',
+            'driver.phone' => 'Fahrer - Telefon',
+            'driver.driving_license_no' => 'Fahrer - Führerschein Nr.',
+            'data.reservation_deposit_recieved' => 'Anzahlung eingegangen',
+            'data.reservation_deposit_value' => 'Anzahlung',
         ];
     }
 }
