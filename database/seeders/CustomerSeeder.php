@@ -17,7 +17,6 @@ class CustomerSeeder extends Seeder
     public function run()
     {
         // Füge Customer in die Datenbank ein.
-        DB::table('customers')->insert([
-        ]);
+        Customer::factory()->count(20)->create();
     }
 }

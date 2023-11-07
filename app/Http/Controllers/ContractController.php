@@ -175,7 +175,7 @@ class ContractController extends Controller
             $output['contract_number'] = $this->getNextNumber();
             $output['current_state'] = "contract";
             $output['contract_date'] = $today;
-            $output['contract_bail'] = 100.0;
+            // $output['contract_bail'] = 100.0;
         }
 
 

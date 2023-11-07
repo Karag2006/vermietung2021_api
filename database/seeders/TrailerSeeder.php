@@ -1,8 +1,10 @@
 <?php
 namespace Database\Seeders;
 
+use App\Models\trailer;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+
 class TrailerSeeder extends Seeder
 {
     /**
@@ -12,6 +14,6 @@ class TrailerSeeder extends Seeder
      */
     public function run()
     {
-
+        trailer::factory()->count(10)->create();
     }
 }
