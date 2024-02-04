@@ -20,7 +20,6 @@ class ContractController extends Controller
     {
         $number = 465382;
         $document = Document::select('contract_number')
-            ->where('current_state', 'contract')
             ->orderBy('contract_number', 'desc')
             ->first();
         if ($document) {

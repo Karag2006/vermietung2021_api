@@ -18,7 +18,6 @@ class OfferController extends Controller
     {
         $number = 26538;
         $document = Document::select('offer_number')
-            ->where('current_state', 'offer')
             ->orderBy('offer_number', 'desc')
             ->first();
         if ($document) {

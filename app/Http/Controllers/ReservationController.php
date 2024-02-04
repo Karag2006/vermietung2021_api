@@ -19,7 +19,6 @@ class ReservationController extends Controller
     {
         $number = 265382;
         $document = Document::select('reservation_number')
-            ->where('current_state', 'reservation')
             ->orderBy('reservation_number', 'desc')
             ->first();
         if ($document) {
