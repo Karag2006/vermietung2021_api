@@ -53,9 +53,9 @@
 
             @includeUnless($document->current_state == 'contract', 'PDFComponents.mainTableSpacer')
 
-            @if ($document->contract_bail > 0)
-                @include('PDFComponents.bail')
-            @endif
+            
+            @include('PDFComponents.bail')
+            
 
         </table>
 
