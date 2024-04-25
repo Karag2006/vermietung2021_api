@@ -30,8 +30,8 @@ class OfferRequest extends FormRequest
 
         $customerRules = [
             'customer.pass_number' => 'string|min:8|max:30|nullable',
-            'customer.name1' => 'required|string|min:5|max:50',
-            'customer.name2' => 'string|max:50|nullable',
+            'customer.name1' => 'required|string|min:5|max:100',
+            'customer.name2' => 'string|max:100|nullable',
             'customer.birth_date' => [
                 $regexDate,
                 'nullable'
@@ -53,8 +53,8 @@ class OfferRequest extends FormRequest
 
         $driverRules = [
             'driver.pass_number' => 'string|min:8|max:30|nullable',
-            'driver.name1' => 'string|min:5|max:50|nullable',
-            'driver.name2' => 'string|max:50|nullable',
+            'driver.name1' => 'string|min:5|max:100|nullable',
+            'driver.name2' => 'string|max:100|nullable',
             'driver.birth_date' => [
                 $regexDate,
                 'nullable'

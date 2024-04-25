@@ -88,12 +88,6 @@ class ContractController extends Controller
      */
     public function update(StoreContractRequest $request, $id)
     {
-        // $token = JWTAuth::getToken();
-        // $username = JWTAuth::getPayload($token)->toArray()["username"];
-        // $user = User::where('username', $username)->first();
-
-        // $request['user_id'] = $user->id;
-
         $data = $this->useInput($request->input(), 'update');
 
         // Get Document with the id of $id
@@ -174,7 +168,6 @@ class ContractController extends Controller
             $output['contract_number'] = $this->getNextNumber();
             $output['current_state'] = "contract";
             $output['contract_date'] = $today;
-            // $output['contract_bail'] = 100.0;
         }
 
 

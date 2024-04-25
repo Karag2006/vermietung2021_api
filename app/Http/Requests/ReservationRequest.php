@@ -26,8 +26,8 @@ class ReservationRequest extends FormRequest
     {
         $customerRules = [
             'customer.pass_number' => 'string|min:8|max:30|nullable',
-            'customer.name1' => 'required|string|min:5|max:50',
-            'customer.name2' => 'string|max:50|nullable',
+            'customer.name1' => 'required|string|min:5|max:100',
+            'customer.name2' => 'string|max:100|nullable',
             'customer.birth_date' => 'nullable|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
             'customer.birth_city' => 'string|min:3|max:50|nullable',
             'customer.plz' => 'nullable|regex:/^(?:[0-9]{5})$/',
@@ -46,8 +46,8 @@ class ReservationRequest extends FormRequest
 
         $driverRules = [
             'driver.pass_number' => 'string|min:8|max:30|nullable',
-            'driver.name1' => 'string|min:5|max:50|nullable',
-            'driver.name2' => 'string|max:50|nullable',
+            'driver.name1' => 'string|min:5|max:100|nullable',
+            'driver.name2' => 'string|max:100|nullable',
             'driver.birth_date' => 'nullable|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
             'driver.birth_city' => 'string|min:3|max:50|nullable',
             'driver.plz' => 'nullable|regex:/^(?:[0-9]{5})$/',

@@ -26,8 +26,8 @@ class CustomerRequest extends FormRequest
     {
         return [
             'pass_number' => 'string|min:8|max:30|nullable',
-            'name1' => 'required|string|min:5|max:50',
-            'name2' => 'string|max:50|nullable',
+            'name1' => 'required|string|min:5|max:100',
+            'name2' => 'string|max:100|nullable',
             'birth_date' => 'nullable|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/',
             'birth_city' => 'string|min:3|max:50|nullable',
             'plz' => 'nullable|regex:/^(?:[0-9]{5})$/',

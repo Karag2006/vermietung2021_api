@@ -26,8 +26,8 @@ class StoreContractRequest extends FormRequest
     {
         $customerRules = [
             'customer.pass_number' => 'required_without:driver.pass_number|string|min:8|max:30|nullable',
-            'customer.name1' => 'required|string|min:5|max:50',
-            'customer.name2' => 'string|min:5|max:50|nullable',
+            'customer.name1' => 'required|string|min:5|max:100',
+            'customer.name2' => 'string|min:5|max:100|nullable',
             'customer.birth_date' => 'required_with:customer.pass_number|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/|nullable',
             'customer.birth_city' => 'required_with:customer.pass_number|string|min:3|max:50|nullable',
             'customer.plz' => 'required|regex:/^(?:[0-9]{5})$/',
@@ -47,8 +47,8 @@ class StoreContractRequest extends FormRequest
 
         $driverRules = [
             'driver.pass_number' => 'required_without:customer.pass_number|string|min:8|max:30|nullable',
-            'driver.name1' => 'required_with:driver.pass_number|string|min:5|max:50|nullable',
-            'driver.name2' => 'string|max:50|nullable',
+            'driver.name1' => 'required_with:driver.pass_number|string|min:5|max:100|nullable',
+            'driver.name2' => 'string|max:100|nullable',
             'driver.birth_date' => 'required_with:driver.pass_number|regex:/^(?:[0-9]{2})\.(?:[0-9]{2})\.(?:[0-9]{4})$/|nullable',
             'driver.birth_city' => 'required_with:driver.pass_number|string|min:3|max:50|nullable',
             'driver.plz' => 'required_with:driver.pass_number|regex:/^(?:[0-9]{5})$/|nullable',
